@@ -7,8 +7,9 @@
 - 页面开发完成；服务领域为拟支持场景，Skill、MCP、AI Agent 均明确标为「规划中」。
 - 使用用户 Mac 桌面原有的 `妆研君_WorkBuddy_头像.jpg`（768 × 768，96,787 字节）。
 - 已接入用户提供的微信合作联系二维码（联系人 HHans），支持查看原图与保存图片。未虚构邮箱、客户案例、业务资质或在线提交功能。
-- GitHub Pages 工作流已准备；尚未创建远端仓库、推送或启用 Pages，没有实际公开网址。
-- 用户自行购买域名。目前没有 `CNAME` 文件、伪造 canonical 或域名解析配置。
+- 远端仓库：[snowleung/zhuangyanjun-web](https://github.com/snowleung/zhuangyanjun-web)。
+- 默认官网地址：[https://snowleung.github.io/zhuangyanjun-web/](https://snowleung.github.io/zhuangyanjun-web/)。发布结果以 [Pages 工作流](https://github.com/snowleung/zhuangyanjun-web/actions/workflows/pages.yml) 的最新运行和实际访问结果为准。
+- 用户自行购买域名。目前没有自定义域名或 `CNAME` 文件；canonical 和分享信息使用真实的 GitHub Pages 项目网址。
 
 ## 项目文件
 
@@ -56,42 +57,41 @@ python3 -m http.server 8080 --bind 127.0.0.1
 
 ## GitHub Pages 部署
 
-### 1. 远端发布前需确认
+### 1. 已有远端仓库
 
-确认 GitHub 账号或组织、仓库名 `zhuangyanjun-web`、公开范围，以及是否允许推送和公开部署。GitHub 免费个人方案使用公开仓库；其他套餐支持的范围请查官方文档。二维码等业务联系方式一旦部署会公开可见。此项目未附加开源许可证，发布到公开仓库不等于授予开放源代码许可。
+本项目使用公开仓库 `snowleung/zhuangyanjun-web`，本地 `main` 对应远端 `origin/main`。无需再次创建仓库。公开仓库内的源码与业务二维码可被互联网访客访问；网站只发布页面及公开资源。
 
-本次检查中，GitHub CLI 对账号 `snowleung` 的现有凭据报告无效。若由代理继续发布，先通过 GitHub 的正常登录流程恢复授权；不要把访问令牌发到聊天或写进项目。以下命令是**确认发布后的操作示例，本次没有执行**。
+确认更改后，在项目目录提交并推送即可触发部署：
 
 ```bash
-gh auth login --hostname github.com --web
-gh auth status
 cd ~/Desktop/workspace/zhuangyanjun-web
-git add .
-git commit -m "feat: add Zhuangyanjun static brand website"
-gh repo create zhuangyanjun-web --public --source=. --remote=origin --push
+git status
+git add index.html css/style.css js/main.js assets README.md .github/workflows/pages.yml
+git commit -m "Update website content"
+git push origin main
 ```
 
-若仓库已存在，先核对其内容与地址，不能直接覆盖或强制推送。独立的本地 git 初始化不会创建远端或自动发布。
+若出现登录问题，先执行 `gh auth status`；网络受限也可能导致认证检查失败，应确认网络连接后再判断凭据状态。确需重新登录时，使用 `gh auth login --hostname github.com --web`，不要把访问令牌发到聊天或写进项目。不要覆盖或强制推送其他人的提交。
 
 ### 2. 启用 Pages
 
-打开该仓库 **Settings → Pages → Build and deployment → Source → GitHub Actions**。不要同时启用另一种发布来源。到 **Actions** 手动运行 `Deploy static website to GitHub Pages`；之后每次推送到 `main` 会自动更新。
+本仓库使用 **Settings → Pages → Build and deployment → Source → GitHub Actions**。每次推送到 `main` 自动发布；需要时也可以在 **Actions** 手动运行 `Deploy static website to GitHub Pages`。不要同时启用另一种发布来源。
 
 工作流直接整理和发布静态文件，无安装或构建步骤。它只上传 `index.html`、`.nojekyll`、`css/`、`js/`、`assets/`，不把 README、git 元数据、工作记录等部署到网站。
 
-工作流完成后，从 **Settings → Pages** 或工作流的 **github-pages** 环境链接取得真实 URL。项目站点通常是：
+工作流完成后，可从 **Settings → Pages** 或 **github-pages** 环境链接打开网站：
 
 ```text
-https://<OWNER>.github.io/zhuangyanjun-web/
+https://snowleung.github.io/zhuangyanjun-web/
 ```
 
-这里的 `<OWNER>` 必须替换为实际用户或组织。这个地址仅表示格式，当前不是已上线链接。默认仓库项目站点保留末尾 `/`，否则某些相对资源解析可能受影响。
+保留项目网址末尾 `/`，确保相对资源正确解析。若页面尚不可访问，先检查最新部署运行，不要仅凭 URL 格式认定上线成功。
 
 ### 3. 仓库子路径和自定义域名
 
 所有页面资源使用 `./assets/...`、`./css/...`、`./js/...`，站内链接使用 `#section`。不使用 `/assets/...`，不写死仓库名或域名，不添加 `<base>`。因此同一份源码可部署于仓库子路径或自定义域名根目录，也可直接打开本地文件。
 
-确定真实公开网址后，在 `index.html` 的 SEO 注释位置加入**真实绝对 URL**：
+目前 `index.html` 的 canonical、og:url 和 og:image 已使用默认 Pages 网址。将来绑定自定义域名后，将这些值一起改成**新的真实绝对 URL**：
 
 ```html
 <link rel="canonical" href="https://你的真实站点地址/">
@@ -100,7 +100,7 @@ https://<OWNER>.github.io/zhuangyanjun-web/
 <meta property="og:image:alt" content="妆研君品牌虚拟研究员头像">
 ```
 
-以上示例不能原样填写：若使用 GitHub 默认网址，三个地址都应带实际仓库子路径。`description`、Open Graph 文案、页面语言、标题、favicon 和 viewport 已配置。当前有意省略未确定的 canonical、分享图片绝对网址、站点地图与 robots.txt 域名信息。
+以上示例不能原样填写。GitHub 默认网址的三个地址均带 `/zhuangyanjun-web/` 子路径；自定义域名通常使用根目录。`description`、Open Graph 文案、页面语言、标题、favicon 和 viewport 已配置。当前没有生成站点地图或包含自定义域名信息的 robots.txt。
 
 ## 域名选择
 
@@ -190,7 +190,7 @@ curl -I http://example.com/
 
 核对 A/AAAA/CNAME 与上文一致。HTTPS 首页应成功响应，www 与主域按首选域名重定向，HTTP 在强制 HTTPS 后重定向到 HTTPS。再打开页面检查安全锁、资源和微信联系入口；不要只看 DNS 命令成功。
 
-本机网络测试只能证明当前网络访问情况。若面向中国大陆访客，应在不同运营商、不同地区和移动网络实际打开测试。绑定域名本身并不保证 GitHub Pages 在各地稳定连通；当前没有完成真实公开部署和跨地区连通性验证。
+本机网络测试只能证明当前网络访问情况。若面向中国大陆访客，应在不同运营商、不同地区和移动网络实际打开测试。绑定域名本身并不保证 GitHub Pages 在各地稳定连通；本机网络检查不能替代跨地区连通性验证；未完成中国大陆多地区、多运营商访问测试。
 
 ## 资料与隐私边界
 
