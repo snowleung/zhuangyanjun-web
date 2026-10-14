@@ -171,11 +171,12 @@ h1 > span { color: var(--green); }
 .contact-card { padding: 25px; border: 1px solid var(--line); border-radius: var(--radius); background: #fffef8; text-align: center; }
 .contact-card-top { display: flex; align-items: center; gap: 9px; color: #62816a; font-size: 9px; letter-spacing: .08em; text-align: left; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
 .wechat-mark svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
-.qr-placeholder { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 170px; height: 170px; margin: 25px auto 21px; border: 1px dashed #b5c9b5; border-radius: 12px; background: #f0f4eb; }
-.qr-placeholder > span { font-size: 32px; line-height: 1; color: #91ac93; margin-bottom: 13px; }
-.qr-placeholder strong { color: #547558; font-size: 13px; font-weight: 500; }
-.qr-placeholder small { color: #5c6a59; font-size: 11px; margin-top: 5px; }
-.wechat-qr { width: 190px; height: auto; margin: 25px auto 21px; }
+/* 仅调整原图显示区域，不修改或重绘二维码；替换图片时需核对取景位置。 */
+.wechat-qr-preview { display: block; position: relative; width: 244px; max-width: 100%; aspect-ratio: 1; overflow: hidden; margin: 25px auto 21px; background: #fff; }
+.wechat-qr-preview img { position: absolute; width: 121.978022%; max-width: none; height: auto; left: -10.989011%; top: -34.065934%; }
+.qr-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; margin-top: 12px; }
+.qr-actions a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--green); font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .contact-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
 .contact-card > p { color: var(--muted); font-size: 11px; line-height: 1.9; }
 .contact-card > .contact-privacy { font-size: 11px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--line); color: #5c6a59; }

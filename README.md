@@ -6,7 +6,7 @@
 
 - 页面开发完成；服务领域为拟支持场景，Skill、MCP、AI Agent 均明确标为「规划中」。
 - 使用用户 Mac 桌面原有的 `妆研君_WorkBuddy_头像.jpg`（768 × 768，96,787 字节）。
-- 微信合作联系二维码待用户提供。没有虚构邮箱、二维码、客户案例、业务资质或在线提交功能。
+- 已接入用户提供的微信合作联系二维码（联系人 HHans），支持查看原图与保存图片。未虚构邮箱、客户案例、业务资质或在线提交功能。
 - GitHub Pages 工作流已准备；尚未创建远端仓库、推送或启用 Pages，没有实际公开网址。
 - 用户自行购买域名。目前没有 `CNAME` 文件、伪造 canonical 或域名解析配置。
 
@@ -19,6 +19,7 @@ zhuangyanjun-web/
 ├── js/main.js                   # 手机导航与页脚年份
 ├── assets/
 │   ├── images/zhuangyanjun-avatar.jpg
+│   ├── images/wechat-contact.jpg # 用户提供的原始二维码图片
 │   └── icons/favicon.svg        # 本地矢量品牌标识
 ├── .github/workflows/pages.yml  # 只发布网页和公开资源
 ├── .gitignore
@@ -45,17 +46,13 @@ python3 -m http.server 8080 --bind 127.0.0.1
 - favicon：替换 `assets/icons/favicon.svg`；它是可维护的简洁分子标识。
 - 不要加入未证实的功效、成功率、客户、资质、证照编号或上线时间。
 
-### 接入微信合作二维码
+### 维护微信合作二维码
 
-仅使用确认允许公开的业务联系人二维码，勿发布个人支付码。把二维码保存为 `assets/images/wechat-contact.png`，将 `index.html` 联系卡内的 `.qr-placeholder` 整块替换为：
+当前使用用户提供的 `IMG_6799.JPG`，逐字节复制为 `assets/images/wechat-contact.jpg`（888 × 1191）。文件没有裁剪、压缩或重绘；网页通过 CSS 突出显示二维码区域并保留白色边距，查看原图和下载始终使用完整原始图片。
 
-```html
-<img class="wechat-qr" src="./assets/images/wechat-contact.png"
-     alt="妆研君合作联系人微信二维码，请使用微信扫一扫添加"
-     loading="lazy">
-```
+更新二维码时，替换该文件，并核对联系人名称、图片尺寸与 CSS 中 `.wechat-qr-preview img` 的取景位置。如果换成四周已有白色边距的方形二维码，可将该选择器改为 `position: static; width: 100%; max-width: 100%; height: auto;`，同时更新 HTML 图片的 width/height。保留完整二维码与识别所需的白色边距，不要拉伸或重绘。
 
-把「合作联系渠道筹备中。二维码补充后，可扫码添加联系人。」改成「打开微信扫一扫，添加联系人。欢迎说明你的业务场景与合作想法。」；同步更新本文件的当前状态。手机端访客可保存二维码后在微信中识别。接入后应实际用微信验证能添加正确联系人，并定期确认二维码有效。
+手机端可点击「保存二维码」，在微信中识别所存图片；若浏览器改为直接打开图片，可长按保存。上线前仍应实际用微信确认能添加正确联系人，并定期确认二维码有效。本次仅验证文件、网页展示和原图/下载入口，不声称已经在微信中完成扫码添加。
 
 ## GitHub Pages 部署
 
