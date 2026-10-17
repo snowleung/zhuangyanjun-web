@@ -150,6 +150,9 @@ h1 > span { color: var(--green); }
 .product-card-heading { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
 .product-category { font-size: 9px; letter-spacing: .08em; color: #aac2ae; }
 .planning-badge { font-size: 10px; padding: 3px 9px; background: #365b47; border: 1px solid #6a805d; color: #ebdec0; border-radius: 20px; flex-shrink: 0; }
+.available-badge { font-size: 10px; padding: 3px 9px; background: #c5e5b5; border: 1px solid #d7ecc8; color: #203f2f; border-radius: 20px; flex-shrink: 0; }
+.product-card-live { border-color: #86aa83; background: #244d40; }
+.product-card.product-card-live h3 span { font-size: 17px; font-weight: 500; color: #e7f1dc; line-height: 1.55; }
 .product-card h3 { font-size: 32px; font-weight: 500; margin-top: 24px; letter-spacing: -.025em; }
 .product-card h3 span { display: block; color: #ced8c9; font-size: 13px; margin-top: 10px; line-height: 1.6; letter-spacing: 0; }
 .product-illustration { height: 172px; margin-block: 17px 19px; position: relative; overflow: hidden; }
@@ -159,6 +162,8 @@ h1 > span { color: var(--green); }
 .product-card li::before { content: "↳"; position: absolute; left: 0; color: #82b399; }
 .product-bottom { margin-top: auto; border-top: 1px solid #4c6657; padding-block: 17px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 10px; color: #bad1bb; }
 .product-bottom > span { font-size: 18px; }
+.product-link { min-height: 56px; font-size: 13px; font-weight: 500; color: #e0f4cb; }
+.product-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .skill-sheet { width: 124px; height: 144px; position: absolute; left: 50%; top: 14px; border: 1px solid #9ab19b; border-radius: 11px; }
 .sheet-back { transform: translateX(-37%) rotate(10deg); background: #557967; }
 .sheet-front { transform: translateX(-60%) rotate(-8deg); background: #e4ebd8; padding: 16px; color: #346149; }
