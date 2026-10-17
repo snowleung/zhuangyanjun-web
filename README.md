@@ -4,7 +4,8 @@
 
 ## 当前状态
 
-- 页面开发完成；服务领域为拟支持场景，Skill、MCP、AI Agent 均明确标为「规划中」。
+- 页面开发完成；AI 服务领域为拟支持场景，Skill、MCP、AI Agent 均明确标为「规划中」。
+- 已加入方图检测公司介绍、专业服务与公司主页入口；页脚展示「专业支持方：广东方图检测科技有限公司」。按用户要求不展示资质证书栏、证书编号或认证标志。
 - 使用用户 Mac 桌面原有的 `妆研君_WorkBuddy_头像.jpg`（768 × 768，96,787 字节）。
 - 已接入用户提供的微信合作联系二维码（联系人 HHans），支持查看原图与保存图片。未虚构邮箱、客户案例、业务资质或在线提交功能。
 - 远端仓库：[snowleung/zhuangyanjun-web](https://github.com/snowleung/zhuangyanjun-web)。
@@ -194,7 +195,7 @@ curl -I http://example.com/
 
 ## 资料与隐私边界
 
-网站只介绍品牌与规划，不提供配方安全、检测或法规结论，不声称拥有业务资质。法规与证照信息需以适用地区的有效官方材料为准，重要决定需专业人员复核。未来系统接入和产品的数据处理政策应在真实发布前另行明确。本页无在线资料收集功能，勿通过公开渠道发送未脱敏资料。
+网站介绍 AI 品牌与规划，以及专业支持方的业务信息；不直接提供配方安全、检测或法规结论，也不展示业务资质声明。法规与证照信息需以适用地区的有效官方材料为准，重要决定需专业人员复核。未来系统接入和产品的数据处理政策应在真实发布前另行明确。本页无在线资料收集功能，勿通过公开渠道发送未脱敏资料。
 
 ## 官方参考
 
@@ -202,3 +203,7 @@ curl -I http://example.com/
 - [管理自定义域名：DNS 与 CNAME 发布方式区别](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
 - [验证自定义域名](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
 - [GitHub Pages HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https)
+
+## 公司介绍维护
+
+专业支持方为广东方图检测科技有限公司，官网为 [方图检测](https://www.atlaslabtest.com/)。公司全称与基础介绍于 2026-10-17 对照官网核对；申报、出口合规等服务文案依据用户提供的信息。页面使用「专业支持方」标注，不推定品牌法律归属。按用户最新要求，不加入 CNAS/CMA 证书展示、编号或认证标志。公司介绍放在「认识妆研君」和「服务领域」之间，锚点为 `#company`；AI 产品继续明确标为「规划中」。更新时同步检查页脚的主体名称与链接，不复制公司网站的备案号到本网站。

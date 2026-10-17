@@ -102,6 +102,26 @@ h1 > span { color: var(--green); }
 .principles span { display: block; color: #5c6a59; font-size: 10px; margin-bottom: 10px; }
 .principles strong { font-size: 14px; font-weight: 600; }
 .principles p { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+/* 公司专业支持：与 AI 产品规划分别展示。 */
+.company-section { padding-bottom: 104px; }
+.company-panel { display: grid; grid-template-columns: 1.05fr 1fr; gap: 35px 70px; padding: 44px; border: 1px solid #d7e1d3; border-radius: var(--radius); background: #eaf0e5; }
+.company-intro .section-kicker { margin-bottom: 16px; }
+.company-intro h2 { font-size: 32px; }
+.company-name { font-size: 24px; font-weight: 600; letter-spacing: .025em; margin-top: 24px; }
+.company-tagline { font-size: 14px; color: #42624a; margin-top: 5px; }
+.company-description { font-size: 12px; line-height: 1.95; color: #5c6a59; margin-top: 17px; }
+.company-home-link { margin-top: 22px; color: #286c56; }
+.company-legal-name { padding-bottom: 18px; border-bottom: 1px solid #cbd8c5; color: #4c6752; font-size: 13px; }
+.company-service { display: flex; gap: 19px; padding-top: 22px; }
+.company-service > span { font-size: 11px; color: #5c6a59; line-height: 2.2; }
+.company-service h3 { font-size: 17px; font-weight: 600; }
+.company-service p { font-size: 12px; line-height: 1.95; color: #5c6a59; margin-top: 8px; }
+.company-scope { grid-column: 1 / -1; font-size: 10px; color: #5c6a59; line-height: 1.95; margin-top: -15px; }
+.footer-company { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding-bottom: 28px; font-size: 12px; }
+.footer-company > span { color: #5c6a59; font-size: 11px; }
+.footer-company a { display: inline-flex; align-items: center; gap: 10px; color: #286c56; text-decoration: underline; text-underline-offset: 4px; }
+
 .domains-section { background: #eff2eb; }
 .section-heading { display: flex; justify-content: space-between; gap: 35px; align-items: flex-end; margin-bottom: 45px; }
 .section-heading > p { font-size: 12px; color: var(--muted); line-height: 1.95; padding-bottom: 6px; max-width: 370px; }
@@ -212,6 +232,7 @@ h1 > span { color: var(--green); }
   .companion-label { left: 19px; right: 19px; padding: 16px; }
   .companion-label strong { font-size: 13px; }
   .about, .faq-section { gap: 55px; }
+  .company-panel { padding: 32px; column-gap: 38px; }
   .domain-card { padding: 23px; }
   .product-grid { gap: 15px; }
   .product-card { padding: 22px 20px 0; }
@@ -238,6 +259,7 @@ h1 > span { color: var(--green); }
   .strip-label { flex-basis: 100%; text-align: center; }
   .strip-inner { padding-block: 19px; row-gap: 12px; font-size: 11px; }
   .section { padding-block: 80px; }
+  .company-section { padding-bottom: 80px; }
   .domain-grid { grid-template-columns: repeat(2, 1fr); }
   .domain-invitation { min-height: 285px; }
   .product-grid { grid-template-columns: 1fr; gap: 22px; }
@@ -299,6 +321,15 @@ h1 > span { color: var(--green); }
   .principles { gap: 10px; padding-top: 20px; margin-top: 26px; }
   .principles strong { font-size: 13px; }
   .principles p { font-size: 10px; }
+  .company-section { padding-bottom: 65px; }
+  .company-panel { grid-template-columns: 1fr; padding: 26px; gap: 30px; }
+  .company-intro h2 { font-size: 30px; }
+  .company-name { font-size: 23px; margin-top: 21px; }
+  .company-tagline { font-size: 13px; }
+  .company-legal-name { font-size: 12px; }
+  .company-service { padding-top: 20px; }
+  .company-scope { margin-top: -14px; }
+  .footer-company { align-items: flex-start; flex-direction: column; gap: 7px; padding-bottom: 24px; }
   .section-heading { display: block; margin-bottom: 28px; }
   .section-heading > p { font-size: 11px; margin-top: 21px; padding: 0; }
   .domain-grid { gap: 13px; }
