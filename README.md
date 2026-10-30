@@ -1,136 +1,84 @@
-# 妆研君｜你的美妆行业 AI 搭档
+# 方图美妆智能
 
-中文响应式品牌官网。纯 HTML、CSS 和少量 JavaScript；零后端、零构建依赖。所有字体来自系统，所有图片与图标来自本地文件，无 CDN、广告或使用分析脚本。
+以 LIMS 与配方系统为业务底座的美妆行业智能服务官网。纯 HTML / CSS / 少量 JavaScript，无后端、无构建依赖，不使用在线字体、CDN 或访客追踪。
 
-## 当前状态
+- 官网：https://snowleung.github.io/zhuangyanjun-web/
+- 仓库：https://github.com/snowleung/zhuangyanjun-web
+- 本地项目：`/Users/hans/Desktop/workspace/zhuangyanjun-web/`
 
-- 「配方名称检查与勘误」Skill 已在 WorkBuddy 上线；MCP 与 AI Agent 继续标为「规划中」。
-- 已加入方图检测公司介绍、专业服务与公司主页入口；页脚展示「专业支持方：广东方图检测科技有限公司」。按用户要求不展示资质证书栏、证书编号或认证标志。
-- 使用用户 Mac 桌面原有的 `妆研君_WorkBuddy_头像.jpg`（768 × 768，96,787 字节）。
-- 已接入用户提供的微信合作联系二维码（联系人 HHans），支持查看原图与保存图片。未虚构邮箱、客户案例、业务资质或在线提交功能。
-- 远端仓库：[snowleung/zhuangyanjun-web](https://github.com/snowleung/zhuangyanjun-web)。
-- 默认官网地址：[https://snowleung.github.io/zhuangyanjun-web/](https://snowleung.github.io/zhuangyanjun-web/)。发布结果以 [Pages 工作流](https://github.com/snowleung/zhuangyanjun-web/actions/workflows/pages.yml) 的最新运行和实际访问结果为准。
-- 用户自行购买域名。目前没有自定义域名或 `CNAME` 文件；canonical 和分享信息使用真实的 GitHub Pages 项目网址。
+仓库名与默认 Pages 子路径继续沿用，以保持已有链接可访问；展示品牌统一为「方图美妆智能」。
 
-## 项目文件
+## 内容与事实边界
+
+两位核心产品均使用「专家」命名，用户于 2026-10-30 确认暂未上线：
+
+1. **方图智能实验室服务专家**：依托 LIMS，围绕委托、样品、任务和报告提供查询及业务协作介绍。读写能力受实际客户端、业务权限和确认要求约束。
+2. **方图智能配方服务专家**：围绕配方系统、标准名称、配方资料与文件核对展示服务方向。具体能力与接入范围以正式发布及需求沟通为准。
+
+两位专家都提供咨询入口，不展示虚假的安装、登录或产品体验网址。LIMS 内容依据用户给定的 [PR #371](https://github.com/snowleung/atlas_lims/pull/371) 中 README 与说明。源码交付不代表专家上架或完成真实业务验收。后续收到用户现成目录与专家描述后，可进一步细化文案。
+
+独立工具「配方名称检查与勘误」保留已上线的 [WorkBuddy 分享入口](https://www.workbuddy.cn/share/asset?shareCode=xM1luM2P8OqMudIL4hFu3v&sig=taQ05wT5ztWrdfn9)。简介依据用户此前提供的方图配方云与 WorkBuddy AI 的 XLSX 文本、格式纠错说明。官网不安装工具，不接收配方文件，不声称已验证其实际纠错效果。
+
+公司支持方：广东方图检测科技有限公司，https://www.atlaslabtest.com/ 。按用户既有要求，不展示资质证书栏、编号或认证标志。
+
+英思美妆 INCILABS 用于参考行业业务场景与系统协作的呈现方式；本页不复制其图片、界面、客户、数据、功能或宣传承诺。所有业务面板标明为示意，不是软件截图，也不表示系统间已经实现自动流转。
+
+## 文件结构
 
 ```text
-zhuangyanjun-web/
-├── index.html                   # 内容、SEO 基础信息、合作入口与声明
-├── css/style.css                # 所有视觉与响应式样式
-├── js/main.js                   # 手机导航与页脚年份
-├── assets/
-│   ├── images/zhuangyanjun-avatar.jpg
-│   ├── images/wechat-contact.jpg # 用户提供的原始二维码图片
-│   └── icons/favicon.svg        # 本地矢量品牌标识
-├── .github/workflows/pages.yml  # 只发布网页和公开资源
-├── .gitignore
-├── .nojekyll
-└── README.md
+index.html
+css/style.css
+js/main.js
+assets/icons/favicon.svg
+assets/images/wechat-contact.jpg
+.github/workflows/pages.yml
+.nojekyll
+.gitignore
+README.md
 ```
 
-## 本地预览
+旧品牌头像已移出当前网站资源，不再发布；可在 git 历史中恢复。微信二维码保留用户提供的原始文件，页面仅通过 CSS 调整显示区域，不重绘或压缩二维码。
 
-直接用浏览器打开 `index.html` 即可查看。推荐用本地 HTTP 服务检查真实地址与图片加载（Mac 已安装 Python 3 时）：
+## 本机预览
+
+可直接用浏览器打开 index.html。也可在项目目录执行：
 
 ```bash
-cd ~/Desktop/workspace/zhuangyanjun-web
 python3 -m http.server 8080 --bind 127.0.0.1
 ```
 
-访问 `http://127.0.0.1:8080/`，结束时在启动服务的终端按 `Control+C`。这只是本机预览，不是互联网公开访问地址，不需要安装 npm 包。
+访问 http://127.0.0.1:8080/ 。结束时按 Control+C。无需安装 npm 包。
 
-## 日常维护
+## 维护要点
 
-- 内容与产品状态：编辑 `index.html`；只有确实上线的能力才能改成可用，并补充真实使用入口。
-- 颜色与间距：编辑 `css/style.css` 开头的 CSS 变量。
-- 头像：替换 `assets/images/zhuangyanjun-avatar.jpg`，保持方形；更改格式时同时修改页面中两处头像地址。
-- favicon：替换 `assets/icons/favicon.svg`；它是可维护的简洁分子标识。
-- 不要加入未证实的功效、成功率、客户、资质、证照编号或上线时间。
+- 全站品牌、SEO、公司与产品介绍在 index.html 中维护；视觉变量在 CSS 文件开头。
+- 专家真正发布后才更新「筹备中」标识，并配置用户确认的正式入口，不将 PR 或内部服务地址当作公众产品入口。
+- 不要将访问凭据、真实业务数据或未脱敏文件写进官网。访问令牌仅在产品指定连接设置中填写。
+- 修改微信图片时核对 `.wechat-qr-preview img` 的取景范围和识别白边；完整原图与保存入口指向同一文件。
+- 外链使用 HTTPS 与 `rel="noopener"`；WorkBuddy 分享页保留完整 shareCode 和 sig，HTML 参数分隔符写为 `&amp;`。
+- 保留历史锚点 `#products`、`#company`、`#expertise`、`#formula-skill`、`#contact`、`#about`。其中 `#expertise` 为接入说明，兼容既有帮助链接。
+- 本页业务示意和介绍不是检测结论、配方安全评估或法规认可；实际业务需专业复核。
 
-### 维护微信合作二维码
+## 发布与验证
 
-当前使用用户提供的 `IMG_6799.JPG`，逐字节复制为 `assets/images/wechat-contact.jpg`（888 × 1191）。文件没有裁剪、压缩或重绘；网页通过 CSS 突出显示二维码区域并保留白色边距，查看原图和下载始终使用完整原始图片。
-
-更新二维码时，替换该文件，并核对联系人名称、图片尺寸与 CSS 中 `.wechat-qr-preview img` 的取景位置。如果换成四周已有白色边距的方形二维码，可将该选择器改为 `position: static; width: 100%; max-width: 100%; height: auto;`，同时更新 HTML 图片的 width/height。保留完整二维码与识别所需的白色边距，不要拉伸或重绘。
-
-手机端可点击「保存二维码」，在微信中识别所存图片；若浏览器改为直接打开图片，可长按保存。上线前仍应实际用微信确认能添加正确联系人，并定期确认二维码有效。本次仅验证文件、网页展示和原图/下载入口，不声称已经在微信中完成扫码添加。
-
-## GitHub Pages 部署
-
-### 1. 已有远端仓库
-
-本项目使用公开仓库 `snowleung/zhuangyanjun-web`，本地 `main` 对应远端 `origin/main`。无需再次创建仓库。公开仓库内的源码与业务二维码可被互联网访客访问；网站只发布页面及公开资源。
-
-确认更改后，在项目目录提交并推送即可触发部署：
+现有 GitHub Actions 工作流在 main 推送后自动发布，不需安装或构建。仅将 index.html、.nojekyll、css、js 和 assets 上传到 Pages，不发布 README 或 git 元数据。
 
 ```bash
-cd ~/Desktop/workspace/zhuangyanjun-web
 git status
-git add index.html css/style.css js/main.js assets README.md .github/workflows/pages.yml
-git commit -m "Update website content"
+git add index.html css/style.css js/main.js assets README.md
+git commit -m "Update Atlas Beauty Intelligence website"
 git push origin main
 ```
 
-若出现登录问题，先执行 `gh auth status`；网络受限也可能导致认证检查失败，应确认网络连接后再判断凭据状态。确需重新登录时，使用 `gh auth login --hostname github.com --web`，不要把访问令牌发到聊天或写进项目。不要覆盖或强制推送其他人的提交。
+发布前检查锚点和相对资源完整，手机到桌面无横向溢出，菜单、Escape、无脚本导航和微信图像正常；确认两个专家没有被误写为已上线。发布后检查最新 Actions 的提交和运行结果，并验证 HTTPS 首页与静态资源为最新版本。
 
-### 2. 启用 Pages
+## 子路径与自定义域名
 
-本仓库使用 **Settings → Pages → Build and deployment → Source → GitHub Actions**。每次推送到 `main` 自动发布；需要时也可以在 **Actions** 手动运行 `Deploy static website to GitHub Pages`。不要同时启用另一种发布来源。
+资源使用 `./css/`、`./js/`、`./assets/`，兼容仓库子路径和自定义域名根目录。没有自定义域名，不创建 CNAME。现有 canonical 和 og:url 使用真实默认 Pages 地址；购买域名后同步替换为实际网址。
 
-工作流直接整理和发布静态文件，无安装或构建步骤。它只上传 `index.html`、`.nojekyll`、`css/`、`js/`、`assets/`，不把 README、git 元数据、工作记录等部署到网站。
+域名绑定顺序：默认网址部署成功 → GitHub 个人/组织 Pages 验证域名 TXT → 仓库 Pages 设置 Custom domain → 注册商 DNS → 等待验证与证书 → Enforce HTTPS。
 
-工作流完成后，可从 **Settings → Pages** 或 **github-pages** 环境链接打开网站：
-
-```text
-https://snowleung.github.io/zhuangyanjun-web/
-```
-
-保留项目网址末尾 `/`，确保相对资源正确解析。若页面尚不可访问，先检查最新部署运行，不要仅凭 URL 格式认定上线成功。
-
-### 3. 仓库子路径和自定义域名
-
-所有页面资源使用 `./assets/...`、`./css/...`、`./js/...`，站内链接使用 `#section`。不使用 `/assets/...`，不写死仓库名或域名，不添加 `<base>`。因此同一份源码可部署于仓库子路径或自定义域名根目录，也可直接打开本地文件。
-
-目前 `index.html` 的 canonical、og:url 和 og:image 已使用默认 Pages 网址。将来绑定自定义域名后，将这些值一起改成**新的真实绝对 URL**：
-
-```html
-<link rel="canonical" href="https://你的真实站点地址/">
-<meta property="og:url" content="https://你的真实站点地址/">
-<meta property="og:image" content="https://你的真实站点地址/assets/images/zhuangyanjun-avatar.jpg">
-<meta property="og:image:alt" content="妆研君品牌虚拟研究员头像">
-```
-
-以上示例不能原样填写。GitHub 默认网址的三个地址均带 `/zhuangyanjun-web/` 子路径；自定义域名通常使用根目录。`description`、Open Graph 文案、页面语言、标题、favicon 和 viewport 已配置。当前没有生成站点地图或包含自定义域名信息的 robots.txt。
-
-## 域名选择
-
-按品牌一致性优先查询：
-
-| 候选 | 适用理由 |
-| --- | --- |
-| `zhuangyanjun.com` | 完整品牌拼音，首选，便于长期使用 |
-| `cosmejun.com` | 字符更短，兼顾美妆与品牌感 |
-| `zyjun.com` | 简短，但需要额外解释与品牌关联 |
-| `zhuangyanjun.cn` | 中文品牌导向的备选 |
-
-未确认注册可用性、价格或商标权利；以注册商实时查询与续费报价为准。不要仅为低首年价格忽略续费成本。绑定哪个域名，应以用户实际购买并确认的域名为准。
-
-## 购买后绑定 DNS 与 HTTPS
-
-以下 DNS 值在 2026-10-14 对照 GitHub 官方资料核实；实际操作前可再次核查文末官方链接。`example.com` 仅为示例，不能写进当前项目。
-
-### 推荐顺序
-
-1. 先让默认 GitHub Pages 网址部署成功。
-2. 在 GitHub **个人或组织 Settings → Pages** 添加并验证域名，按页面返回的名称和值创建 TXT 记录。保留 TXT 记录；不要猜测验证令牌。
-3. 在**仓库 Settings → Pages → Custom domain** 填写已购买的首选域名并保存。
-4. 再到域名注册商添加网站 DNS 记录，避免域名先指向 GitHub 却没有绑定到自己的仓库。
-5. 等待 GitHub DNS 检查与证书准备完成，再启用 **Enforce HTTPS**，并测试主域和 www 的访问与重定向。DNS 传播及 HTTPS 选项准备可能需要等待至 24 小时。
-
-### 主域名（例如 example.com）
-
-在 DNS 中添加四条 `A`，记录名均为 `@`：
+主域名的四条 A 记录（记录名 @）：
 
 ```text
 185.199.108.153
@@ -139,7 +87,7 @@ https://snowleung.github.io/zhuangyanjun-web/
 185.199.111.153
 ```
 
-需要 IPv6 时，额外添加四条 `AAAA`，记录名均为 `@`；同时保留上面的 IPv4 `A` 记录：
+可选 IPv6，保留 A 的同时添加四条 AAAA：
 
 ```text
 2606:50c0:8000::153
@@ -148,72 +96,10 @@ https://snowleung.github.io/zhuangyanjun-web/
 2606:50c0:8003::153
 ```
 
-TTL 可先使用注册商默认值。不要保留指向停放页或其他服务器的冲突 A/AAAA 记录，也不要改动正常使用的邮件 MX/TXT 等无关记录。
+www CNAME 记录指向 `snowleung.github.io`，不带协议、仓库名或路径。移除冲突的停放页 A/AAAA/CNAME，不改动无关邮件记录，不配置通配符 DNS。Actions 发布方式以 Pages 的 Custom domain 设置为准，不要求 CNAME 文件。
 
-### www 子域名
-
-添加一条 `CNAME`：
-
-| 类型 | 记录名 | 记录值 |
-| --- | --- | --- |
-| CNAME | `www` | `<OWNER>.github.io` |
-
-值只包含实际 GitHub 用户或组织的主机名；**不带 `https://`、仓库名、斜杠或路径**。www 不应同时存在冲突的 A/AAAA 记录。两者都配置正确时，GitHub 可在主域和 www 之间重定向，以 Pages 设置中的 Custom domain 为首选。
-
-### 关于 CNAME 文件
-
-本项目默认使用 GitHub Actions 发布。官方文档说明：这种发布方式以 Pages 设置的 Custom domain 为准，`CNAME` 文件不必创建，存在时也被忽略。因此购买域名后也不必为了 Actions 部署生成 `CNAME`。
-
-只有日后主动改用 **Deploy from a branch** 时，才应在真实域名确定后由 Pages 设置创建或维护 `CNAME`，文件只写一行已购买域名。不配置通配符 DNS（如 `*`）。
-
-## 上线验证清单
-
-### 默认网址
-
-- Actions 运行成功，Pages 设置显示实际部署地址。
-- 首页、CSS、JS、头像和 favicon 均返回 200，且没有浏览器控制台错误。
-- 在桌面和 320–430px 手机宽度检查文字、导航、微信二维码及所有锚点，无横向溢出。
-- 禁用 JavaScript 时，全部内容和导航仍可访问。
-- 未准备好上线的产品继续标为「规划中」，联系二维码实际指向正确联系人。
-
-### 自定义域名
-
-购买后替换示例域名再运行：
-
-```bash
-dig example.com A +short
-dig example.com AAAA +short
-dig www.example.com CNAME +short
-curl -I https://example.com/
-curl -I https://www.example.com/
-curl -I http://example.com/
-```
-
-核对 A/AAAA/CNAME 与上文一致。HTTPS 首页应成功响应，www 与主域按首选域名重定向，HTTP 在强制 HTTPS 后重定向到 HTTPS。再打开页面检查安全锁、资源和微信联系入口；不要只看 DNS 命令成功。
-
-本机网络测试只能证明当前网络访问情况。若面向中国大陆访客，应在不同运营商、不同地区和移动网络实际打开测试。绑定域名本身并不保证 GitHub Pages 在各地稳定连通；本机网络检查不能替代跨地区连通性验证；未完成中国大陆多地区、多运营商访问测试。
-
-## 资料与隐私边界
-
-网站介绍 AI 品牌与规划，以及专业支持方的业务信息；不直接提供配方安全、检测或法规结论，也不展示业务资质声明。法规与证照信息需以适用地区的有效官方材料为准，重要决定需专业人员复核。未来系统接入和产品的数据处理政策应在真实发布前另行明确。本页无在线资料收集功能，勿通过公开渠道发送未脱敏资料。
-
-## 官方参考
+DNS 与证书准备可能需要等待。使用 dig 核对 A/AAAA/CNAME，再用浏览器与 curl 检查 HTTPS、重定向和页面资源。当前网络测试不等于中国大陆各地区、各运营商均可稳定访问。
 
 - [GitHub Pages 自定义工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
-- [管理自定义域名：DNS 与 CNAME 发布方式区别](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
-- [验证自定义域名](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
-- [GitHub Pages HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https)
-
-## 公司介绍维护
-
-专业支持方为广东方图检测科技有限公司，官网为 [方图检测](https://www.atlaslabtest.com/)。公司全称与基础介绍于 2026-10-17 对照官网核对；申报、出口合规等服务文案依据用户提供的信息。页面使用「专业支持方」标注，不推定品牌法律归属。按用户最新要求，不加入 CNAS/CMA 证书展示、编号或认证标志。公司介绍放在「认识妆研君」和「服务领域」之间，锚点为 `#company`；Skill 已上线，MCP 与 AI Agent 继续明确标为「规划中」。更新时同步检查页脚的主体名称与链接，不复制公司网站的备案号到本网站。
-
-## 已上线 Skill
-
-- 名称：配方名称检查与勘误。
-- 入口：[在 WorkBuddy 查看并使用](https://www.workbuddy.cn/share/asset?shareCode=xM1luM2P8OqMudIL4hFu3v&sig=taQ05wT5ztWrdfn9)。
-- 简介依据用户提供内容：依托方图配方云，结合 WorkBuddy 内置 AI 大模型，检查并纠正送检配方 XLSX 文件中的文本与格式问题，包括多余空格、标点不规范、中英文混排错误等。
-- 2026-10-17 已读取公开分享页，确认名称与开发者「妆研君」；页面说明先生成检查报告，用户确认后另存纠正文件。未在本次官网更新中安装 Skill 或测试其实际纠错效果。
-- 使用方式和最新版本以 WorkBuddy 页面为准；本网站仅提供介绍与跳转，不接收或上传配方文件。
-- 维护入口时保留完整 `shareCode` 和 `sig` 参数；HTML 中参数分隔符使用 `&amp;`，不要加入反斜杠。
-- 更新产品状态时同步检查首页提示、产品区总述、公司介绍末尾、常见问题与 SEO 文案，避免已上线和规划中状态互相矛盾。
+- [自定义域名与 DNS](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+- [HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https)
