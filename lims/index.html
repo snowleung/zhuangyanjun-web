@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATLAS LIMS｜化妆品检测实验室信息管理系统</title>
+<meta name="description" content="ATLAS LIMS 面向化妆品检测实验室，把送检登记、任务指派、样品流转、数据处理与报告审核收进同一条可追溯的链路。">
+<meta name="theme-color" content="#1677c5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231677c5'/%3E%3Cpath d='M8.6 23 16 8.4 23.4 23M12.4 18.4h7.2' fill='none' stroke='%23fff' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ATLAS LIMS｜从一支样品，到一份报告">
+<meta property="og:description" content="五个环节，一条链路。谁在做、做到哪一步、用了多少样、报告是哪一版，打开就知道。">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --ink:#0a1a2a;
+    --ink-2:#43586c;
+    --ink-3:#5f7488;
+    --line:#e2eaf2;
+    --line-strong:#cbd9e6;
+    --bg:#f7fafd;
+    --surface:#ffffff;
+    --brand:#1677c5;
+    --brand-700:#0d5c9e;
+    --brand-800:#0a4676;
+    --brand-50:#eaf4fd;
+    --teal:#0f9d8f;
+    --amber:#c77b12;
+    --radius:16px;
+    --radius-lg:20px;
+    --shadow-sm:0 1px 2px rgba(10,26,42,.04),0 10px 30px -18px rgba(10,26,42,.18);
+    --shadow-lg:0 40px 80px -48px rgba(13,63,110,.42);
+    --ease:cubic-bezier(.2,.8,.2,1);
+    --wrap:1160px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+    font-size:16px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(22,119,197,.18)}
+  h1,h2,h3,h4,p,figure,blockquote{margin:0}
+  ul,ol{margin:0;padding:0;list-style:none}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+  svg{display:block}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:4px}
+
+  .wrap{width:min(var(--wrap),calc(100% - 48px));margin-inline:auto}
+  .skip{
+    position:absolute;left:16px;top:-60px;z-index:200;
+    background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;
+    transition:top .2s var(--ease);
+  }
+  .skip:focus{top:14px}
+
+  /* ---------- 导航 ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    height:68px;display:flex;align-items:center;
+    background:rgba(247,250,253,.72);
+    -webkit-backdrop-filter:saturate(180%) blur(16px);
+    backdrop-filter:saturate(180%) blur(16px);
+    border-bottom:1px solid transparent;
+    transition:background .25s ease,border-color .25s ease;
+  }
+  .nav.is-scrolled{background:rgba(255,255,255,.9);border-bottom-color:var(--line)}
+  .nav-progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,var(--brand),var(--teal));transition:width .12s linear}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{display:flex;align-items:center;gap:11px;flex:none}
+  .brand-text{display:flex;flex-direction:column;line-height:1.1}
+  .brand-name{font-size:15px;font-weight:700;letter-spacing:.11em}
+  .brand-name small{font-size:9px;font-weight:600;letter-spacing:.14em;color:var(--brand-700);background:var(--brand-50);border:1px solid rgba(22,119,197,.16);padding:1px 4px;border-radius:3px;margin-left:4px;vertical-align:2px}
+  .brand-sub{font-size:10px;color:var(--ink-3);letter-spacing:.16em;margin-top:2px}
+
+  .nav-links{display:flex;align-items:center;gap:22px;font-size:13.5px;color:var(--ink-2)}
+  .nav-links a{position:relative;padding:6px 0;transition:color .18s ease}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+    background:var(--brand);transform:scaleX(0);transform-origin:left;
+    transition:transform .26s var(--ease);
+  }
+  .nav-links a:hover,.nav-links a.is-active{color:var(--brand-700)}
+  .nav-links a:hover::after,.nav-links a.is-active::after{transform:scaleX(1)}
+
+  .nav-right{display:flex;align-items:center;gap:10px;flex:none}
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--brand);color:#fff;font-size:13px;font-weight:600;
+    padding:9px 15px;border-radius:8px;
+    box-shadow:0 8px 18px -10px rgba(22,119,197,.9);
+    transition:background .18s ease,transform .18s ease;
+  }
+  .nav-cta:hover{background:var(--brand-700);transform:translateY(-1px)}
+  .menu-btn{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:8px;background:#fff;align-items:center;justify-content:center}
+  .menu-btn span{display:block;width:16px;height:1.5px;background:var(--ink);position:relative}
+  .menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--ink)}
+  .menu-btn span::before{top:-5px}
+  .menu-btn span::after{top:5px}
+
+  .mobile-menu{
+    position:fixed;top:68px;left:0;right:0;z-index:99;
+    background:rgba(255,255,255,.98);
+    border-bottom:1px solid var(--line);
+    padding:10px 24px 18px;
+    display:none;
+    box-shadow:0 20px 40px -30px rgba(10,26,42,.4);
+  }
+  .mobile-menu[data-open="true"]{display:block}
+  .mobile-menu a{display:block;padding:11px 2px;font-size:14px;color:var(--ink-2);border-bottom:1px solid #f0f5fa}
+  .mobile-menu a:last-child{border-bottom:0;color:var(--brand-700);font-weight:600}
+
+  /* ---------- 首屏 ---------- */
+  .hero{position:relative;overflow:hidden;padding:146px 0 84px}
+  .hero-bg{position:absolute;inset:0;pointer-events:none}
+  .hero-bg::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(900px 520px at 78% 8%,rgba(22,119,197,.13),transparent 64%),
+      radial-gradient(620px 460px at 6% 88%,rgba(15,157,143,.09),transparent 70%),
+      linear-gradient(180deg,#fafdff 0%,#f2f8fe 62%,var(--bg) 100%);
+  }
+  .hero-bg::after{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(13,63,110,.055) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(13,63,110,.055) 1px,transparent 1px);
+    background-size:76px 76px;
+    -webkit-mask-image:radial-gradient(ellipse 78% 62% at 52% 26%,#000 20%,transparent 74%);
+    mask-image:radial-gradient(ellipse 78% 62% at 52% 26%,#000 20%,transparent 74%);
+  }
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.03fr .97fr;gap:56px;align-items:center}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:11.5px;font-weight:600;letter-spacing:.15em;color:var(--brand-700);
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:currentColor;opacity:.7}
+
+  h1{
+    margin:18px 0 22px;
+    font-size:clamp(38px,5vw,62px);
+    line-height:1.12;
+    letter-spacing:-.028em;
+    font-weight:700;
+    text-wrap:balance;
+  }
+  h1 .hl{position:relative;display:inline-block;z-index:0}
+  h1 .hl::after{
+    content:"";position:absolute;left:-2px;right:-2px;bottom:.06em;height:.16em;z-index:-1;
+    background:linear-gradient(90deg,rgba(22,119,197,.26),rgba(15,157,143,.22));
+    border-radius:2px;
+  }
+  .hero-lede{max-width:33em;font-size:17px;line-height:1.9;color:var(--ink-2);text-wrap:pretty}
+  .hero-lede b{color:var(--ink);font-weight:600}
+
+  .hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    height:44px;padding:0 20px;border-radius:9px;
+    font-size:14px;font-weight:600;letter-spacing:.01em;
+    transition:transform .18s var(--ease),background .18s ease,border-color .18s ease,box-shadow .18s ease;
+  }
+  .btn svg{transition:transform .2s var(--ease)}
+  .btn:hover svg{transform:translateX(3px)}
+  .btn-primary{
+    background:var(--brand);color:#fff;
+    box-shadow:0 12px 26px -14px rgba(22,119,197,.95);
+  }
+  .btn-primary:hover{background:var(--brand-700);transform:translateY(-1px);box-shadow:0 16px 30px -14px rgba(22,119,197,.95)}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--ink-2);background:rgba(255,255,255,.6)}
+  .btn-ghost:hover{border-color:var(--brand);color:var(--brand-700);background:#fff}
+
+  .hero-fit{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:20px;font-size:11.5px;color:var(--ink-3)}
+  .hero-fit span{color:var(--brand-700);font-weight:600;letter-spacing:.02em}
+  .hero-fit i{font-style:normal;color:var(--ink-2)}
+
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+    margin-top:46px;padding-top:26px;border-top:1px solid rgba(203,217,230,.7);
+  }
+  .stat b{display:block;font-size:26px;font-weight:650;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+  .stat span{display:block;margin-top:5px;font-size:11.5px;color:var(--ink-3);line-height:1.45}
+
+  /* 首屏界面示意 */
+  .hero-app{position:relative;padding:8px 0}
+  .app-window{
+    position:relative;background:#fff;border:1px solid var(--line);
+    border-radius:18px;overflow:hidden;
+    box-shadow:var(--shadow-lg),0 2px 6px rgba(13,63,110,.05);
+    transform:rotate(.35deg);
+  }
+  .app-chrome{display:flex;align-items:center;gap:6px;padding:11px 15px;background:#fbfdff;border-bottom:1px solid var(--line)}
+  .app-dot{width:8px;height:8px;border-radius:50%;background:#dce7f1}
+  .app-path{margin-left:9px;font-size:10.5px;color:var(--ink-3);letter-spacing:.03em}
+  .app-badge{
+    margin-left:auto;font-size:10px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:var(--brand-700);background:var(--brand-50);border:1px solid rgba(22,119,197,.16);
+    padding:2px 7px;border-radius:4px;
+  }
+  .app-content{padding:22px 24px 26px}
+  .app-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:22px}
+  .app-eyebrow{font-size:10.5px;letter-spacing:.12em;color:var(--ink-3);margin-bottom:5px}
+  .app-head h3{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .pill::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+  .pill-blue{color:var(--brand-700);background:var(--brand-50);border:1px solid rgba(22,119,197,.15)}
+  .pill-teal{color:#0a7167;background:#e9f8f5;border:1px solid rgba(15,157,143,.18)}
+
+  .mini-flow li{position:relative;display:flex;justify-content:space-between;gap:14px;padding:0 0 17px 28px}
+  .mini-flow li:last-child{padding-bottom:0}
+  .mini-flow li::before{content:"";position:absolute;left:5px;top:16px;bottom:-1px;width:1px;background:var(--line)}
+  .mini-flow li:last-child::before{display:none}
+  .mini-flow .dot{position:absolute;left:0;top:4px;width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid var(--line-strong)}
+  .mini-flow li.done .dot{background:var(--brand);border-color:var(--brand)}
+  .mini-flow li.now .dot{background:#fff;border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,157,143,.13)}
+  .mini-flow b{display:block;font-size:12.5px;font-weight:600;line-height:1.4}
+  .mini-flow small{display:block;margin-top:2px;font-size:10.5px;color:var(--ink-3);line-height:1.5}
+  .mini-flow em{font-style:normal;font-size:10px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
+  .mini-flow li.done em{color:var(--brand-700)}
+  .mini-flow li.now em{color:#0a7167;font-weight:600}
+
+  .hero-floats{position:absolute;inset:0;pointer-events:none}
+  .float-card{
+    position:absolute;pointer-events:auto;
+    background:#fff;border:1px solid var(--line);border-radius:13px;
+    padding:13px 15px;min-width:150px;
+    box-shadow:0 22px 44px -26px rgba(13,63,110,.42),0 2px 6px rgba(13,63,110,.04);
+  }
+  .float-a{right:-22px;top:-20px}
+  .float-b{left:-28px;bottom:-72px}
+  .fc-label{display:block;font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+  .float-card strong{display:block;margin-top:3px;font-size:23px;font-weight:650;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .float-card strong small{font-size:11px;font-weight:500;color:var(--ink-3);margin-left:2px}
+  .fc-sub{display:block;margin-top:4px;font-size:10px;color:var(--ink-3)}
+  .fc-sub.warn{color:var(--amber)}
+
+  /* ---------- 通用 section ---------- */
+  .section{padding:clamp(64px,8.5vw,104px) 0}
+  section[id],div[id]{scroll-margin-top:84px}
+  #stack{padding-top:clamp(58px,7vw,80px)}
+  .section-head{max-width:740px;margin-bottom:44px}
+  .kicker{
+    display:flex;align-items:center;gap:10px;
+    font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--brand-700);
+  }
+  .kicker-num{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:10px;color:var(--ink-3);letter-spacing:.08em;
+  }
+  .kicker::after{content:"";width:34px;height:1px;background:currentColor;opacity:.35}
+  h2{margin:14px 0 14px;font-size:clamp(27px,3.4vw,40px);line-height:1.24;letter-spacing:-.024em;font-weight:650;text-wrap:balance}
+  .lede{font-size:16px;line-height:1.88;color:var(--ink-2);text-wrap:pretty}
+
+  /* ---------- 痛点 ---------- */
+  .band{
+    background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:clamp(56px,7vw,80px) 0;
+  }
+  .problem-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;margin-top:38px;
+  }
+  .problem{background:#fff;padding:26px 24px 28px;transition:background .2s ease}
+  .problem:hover{background:#fbfdff}
+  .problem .pnum{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+  .problem h3{font-size:15.5px;font-weight:600;margin:11px 0 9px;letter-spacing:-.01em}
+  .problem p{font-size:13.5px;line-height:1.8;color:var(--ink-2)}
+  .band-foot{
+    margin-top:34px;max-width:50em;
+    font-size:clamp(18px,2.1vw,23px);line-height:1.62;letter-spacing:-.015em;color:var(--ink);
+    text-wrap:balance;
+  }
+  .band-foot b{color:var(--brand-700);font-weight:650}
+
+  /* ---------- 流程 ---------- */
+  .process-rail{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding-bottom:6px}
+  .process-rail::before{content:"";position:absolute;left:calc((100% - 32px)/10);right:calc((100% - 32px)/10);top:22px;height:1px;background:var(--line)}
+  .rail-progress{
+    position:absolute;left:0;top:22px;height:1px;width:0;
+    background:linear-gradient(90deg,var(--brand),var(--teal));
+    transition:width .45s var(--ease),left .45s var(--ease);
+  }
+  .step{position:relative;text-align:center;padding:0;display:flex;flex-direction:column;align-items:center;gap:9px}
+  .step-index{
+    position:relative;z-index:1;
+    width:45px;height:45px;border-radius:50%;
+    display:grid;place-items:center;
+    background:#fff;border:1px solid var(--line-strong);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11px;font-weight:600;color:var(--ink-3);
+    transition:background .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease,transform .22s var(--ease);
+  }
+  .step-name{font-size:14px;font-weight:600;color:var(--ink-2);transition:color .18s ease}
+  .step-role{font-size:10.5px;color:var(--ink-3);margin-top:-4px}
+  .step:hover .step-index{border-color:var(--brand);color:var(--brand-700)}
+  .step.is-active .step-index{
+    background:var(--brand);border-color:var(--brand);color:#fff;
+    box-shadow:0 10px 22px -10px rgba(22,119,197,.85);
+    transform:translateY(-1px);
+  }
+  .step.is-active .step-name{color:var(--ink);font-weight:650}
+  .step.is-active .step-role{color:var(--brand-700)}
+
+  .process-panel{
+    margin-top:34px;background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:36px 40px;box-shadow:var(--shadow-sm);
+  }
+  .process-panel[hidden]{display:none}
+  .panel-in{animation:panelIn .38s var(--ease)}
+  @keyframes panelIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+  .panel-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px}
+  .panel-roles{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+  .chip{
+    font-size:10.5px;line-height:1.6;padding:3px 9px;border-radius:999px;
+    background:var(--brand-50);color:var(--brand-700);border:1px solid rgba(22,119,197,.14);
+  }
+  .chip-teal{background:#e9f8f5;color:#0a7167;border-color:rgba(15,157,143,.18)}
+  .panel-grid h3{font-size:21px;font-weight:650;letter-spacing:-.015em;margin-bottom:10px}
+  .panel-desc{font-size:14.5px;line-height:1.9;color:var(--ink-2)}
+  .panel-note{
+    margin-top:22px;padding:13px 16px;
+    border-left:2px solid var(--teal);background:#f4fbfa;
+    font-size:12.5px;line-height:1.75;color:#1d5f58;border-radius:0 8px 8px 0;
+  }
+  .panel-list{display:grid;gap:14px;align-content:start}
+  .panel-list li{display:flex;gap:10px;font-size:14px;line-height:1.75;color:var(--ink-2)}
+  .panel-list svg{flex:none;margin-top:3px;color:var(--teal)}
+  .panel-list b{color:var(--ink);font-weight:600}
+
+  /* ---------- 系统界面示意 ---------- */
+  .ui-demo{margin-top:6px}
+  .ui-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+  .ui-tab{
+    height:44px;padding:0 17px;border-radius:8px;
+    border:1px solid var(--line);background:#fff;
+    font-size:13px;font-weight:500;color:var(--ink-2);
+    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  .ui-tab:hover{border-color:var(--line-strong);color:var(--ink)}
+  .ui-tab.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
+  .ui-tab:active{transform:scale(.985)}
+
+  .ui-frame{
+    position:relative;overflow:hidden;
+    border:1px solid var(--line-strong);border-radius:16px;
+    background:#f6f9fc;
+    box-shadow:0 44px 90px -58px rgba(10,42,70,.55),0 2px 6px rgba(10,42,70,.04);
+  }
+  .ui-topbar{height:44px;display:flex;align-items:center;gap:14px;padding:0 16px;background:linear-gradient(90deg,#0d5c9e,#1677c5);color:#fff}
+  .ui-logo{font-size:10.5px;font-weight:700;letter-spacing:.13em;white-space:nowrap}
+  .ui-logo span{font-size:8px;font-weight:600;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:1px 4px;border-radius:3px;margin-left:3px;vertical-align:1px}
+  .ui-crumb{font-size:10px;color:rgba(255,255,255,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-user{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:9.5px;color:rgba(255,255,255,.9);white-space:nowrap}
+  .ui-user::before{content:"";width:17px;height:17px;border-radius:50%;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.28)}
+  .ui-body{display:grid;grid-template-columns:148px minmax(0,1fr);min-height:408px}
+  .ui-side{background:#fff;border-right:1px solid #e6edf5;padding:12px 9px}
+  .ui-menu-group{padding:13px 10px 5px;font-size:8.5px;letter-spacing:.1em;color:#9aa9b8}
+  .ui-menu-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;font-size:10.5px;color:#5b6c7e}
+  .ui-menu-item.is-active{background:#e8f4fe;color:#0d5c9e;font-weight:600}
+  .ui-menu-dot{width:5px;height:5px;border-radius:50%;background:#cbd9e6;flex:none}
+  .ui-menu-item.is-active .ui-menu-dot{background:#1677c5}
+  .ui-main{padding:20px 22px 24px;min-width:0}
+  .ui-screen[hidden]{display:none}
+  .ui-screen.ui-in{animation:uiIn .3s var(--ease)}
+  @keyframes uiIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+  .ui-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}
+  .ui-page-head h4{font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+  .ui-page-head p{margin-top:3px;font-size:9px;color:#7b8b9a}
+  .ui-pill{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:600;padding:3px 8px;border-radius:999px;background:#eaf4fd;color:#0d5c9e;white-space:nowrap}
+  .ui-pill::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+  .ui-pill.teal{background:#e9f8f5;color:#0a7167}
+  .ui-pill.amber{background:#fff5e6;color:#9a5a00}
+
+  .ui-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:11px}
+  .ui-kpi{background:#fff;border:1px solid #e4e9ef;border-radius:8px;padding:11px 12px 10px;min-width:0}
+  .ui-kpi span{display:block;font-size:8.5px;color:#7b8b9a;white-space:nowrap}
+  .ui-kpi b{display:block;margin-top:2px;font-size:21px;font-weight:650;line-height:1.15;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .ui-kpi em{display:block;margin-top:2px;font-style:normal;font-size:8px;color:#8a99a8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-kpi.is-warn{border-color:#f0d6ae;background:#fffaf2}
+  .ui-kpi.is-warn b{color:#9a5a00}
+
+  .ui-cols{display:grid;grid-template-columns:1.22fr .78fr;gap:11px}
+  .ui-card{background:#fff;border:1px solid #e4e9ef;border-radius:8px;padding:12px 14px;min-width:0}
+  .ui-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .ui-card-head b{font-size:10.5px;font-weight:650}
+  .ui-card-head span,.ui-card-head a{font-size:8.5px;color:#8a99a8;font-weight:400}
+
+  .ui-todo li{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #eef3f8;font-size:10px}
+  .ui-todo li:first-child{border-top:0;padding-top:2px}
+  .ui-todo li:last-child{padding-bottom:1px}
+  .ui-todo div{min-width:0;flex:1}
+  .ui-todo b{display:block;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-todo small{display:block;margin-top:1px;font-size:8.5px;color:#8a99a8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-todo em{font-style:normal;font-size:8.5px;color:#8a99a8;white-space:nowrap}
+  .ui-todo em.is-due{color:#9a5a00;font-weight:600}
+  .ui-sdot{width:6px;height:6px;border-radius:50%;background:#1677c5;flex:none}
+  .ui-sdot.teal{background:#0f9d8f}
+  .ui-sdot.amber{background:#d98a0b}
+
+  .ui-chart{height:139px;padding-top:4px}
+  .ui-bars{
+    display:flex;align-items:flex-end;gap:11px;height:113px;
+    border-bottom:1px solid #e4e9ef;
+    background:repeating-linear-gradient(to top,#f2f6fa 0 1px,transparent 1px 37px);
+  }
+  .ui-bar{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
+  .ui-bar b{font-size:8.5px;font-weight:600;color:#5b6c7e;line-height:1}
+  .ui-bar i{display:block;width:58%;max-width:26px;height:var(--h);border-radius:3px 3px 0 0;background:linear-gradient(180deg,#4da3e0,#1677c5)}
+  .ui-bar:last-child i{background:linear-gradient(180deg,#1bb5a4,#0f9d8f)}
+  .ui-xaxis{display:flex;gap:11px;margin-top:5px}
+  .ui-xaxis span{flex:1;text-align:center;font-size:8.5px;color:#8a99a8}
+
+  .ui-search{display:flex;align-items:center;height:27px;padding:0 10px;border:1px solid #e4e9ef;border-radius:6px;background:#fff;font-size:9px;color:#9aa9b8;width:210px;max-width:100%}
+  .ui-query{display:grid;grid-template-columns:236px minmax(0,1fr);gap:11px}
+  .ui-list{background:#fff;border:1px solid #e4e9ef;border-radius:8px;overflow:hidden}
+  .ui-list-head{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;font-size:9px;font-weight:600;border-bottom:1px solid #eef3f8}
+  .ui-list-head span{font-weight:400;color:#8a99a8;font-size:8px}
+  .ui-list-row{display:flex;align-items:center;gap:7px;padding:9px 12px;border-bottom:1px solid #f2f6fa}
+  .ui-list-row:last-child{border-bottom:0}
+  .ui-list-row.is-active{background:#eaf4fd;box-shadow:inset 3px 0 0 #1677c5}
+  .ui-list-row div{min-width:0;flex:1}
+  .ui-list-row b{display:block;font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-list-row small{display:block;margin-top:1px;font-size:8px;color:#8a99a8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-tag{font-size:8px;padding:2px 6px;border-radius:999px;background:#eef5fc;color:#0d5c9e;white-space:nowrap;flex:none}
+  .ui-tag.teal{background:#e9f8f5;color:#0a7167}
+  .ui-tag.amber{background:#fff5e6;color:#9a5a00}
+
+  .ui-detail{background:#fff;border:1px solid #e4e9ef;border-radius:8px;padding:12px 14px;min-width:0}
+  .ui-detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .ui-detail-head b{font-size:10.5px;font-weight:650}
+  .ui-detail-head small{display:block;margin-top:2px;font-size:8.5px;color:#8a99a8}
+  .ui-mini-tabs{display:flex;gap:15px;margin:10px 0 4px;border-bottom:1px solid #eef3f8;font-size:9px;color:#8a99a8}
+  .ui-mini-tabs span{padding-bottom:5px;white-space:nowrap}
+  .ui-mini-tabs .is-active{color:#0d5c9e;font-weight:600;box-shadow:inset 0 -2px 0 #1677c5}
+  .ui-timeline li{position:relative;padding:7px 46px 7px 18px;font-size:9.5px;color:#43586c}
+  .ui-timeline li::before{content:"";position:absolute;left:1px;top:11px;width:7px;height:7px;border-radius:50%;border:2px solid #cbd9e6;background:#fff;z-index:1}
+  .ui-timeline li::after{content:"";position:absolute;left:4px;top:20px;bottom:-3px;width:1px;background:#d9e4ef}
+  .ui-timeline li:last-child::after{display:none}
+  .ui-timeline li.done::before{background:#1677c5;border-color:#1677c5}
+  .ui-timeline li.now::before{border-color:#0f9d8f;box-shadow:0 0 0 3px rgba(15,157,143,.12)}
+  .ui-timeline b{font-size:9.5px;font-weight:600;color:#1a2332}
+  .ui-timeline small{margin-left:5px;font-size:8.5px;color:#8a99a8}
+  .ui-timeline em{position:absolute;right:0;top:7px;font-style:normal;font-size:8px;color:#8a99a8}
+  .ui-timeline li.now em{color:#0a7167;font-weight:600}
+  .ui-summary{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;padding-top:8px;border-top:1px solid #eef3f8;font-size:8.5px;color:#8a99a8}
+  .ui-summary b{margin-left:3px;color:#1a2332;font-weight:600}
+  .ui-remark{margin-bottom:9px;padding:7px 9px;border:1px solid #eef3f8;border-radius:6px;background:#fbfdff}
+  .ui-remark span{display:block;margin-bottom:2px;font-size:7.5px;color:#8a99a8}
+  .ui-remark p{font-size:8.5px;line-height:1.6;color:#43586c}
+
+  .ui-review{display:grid;grid-template-columns:1.42fr .58fr;gap:11px;align-items:start}
+  .ui-review-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:11px}
+  .ui-review-title b{font-size:11px;font-weight:650}
+  .ui-review-title span{font-size:8.5px;color:#8a99a8}
+  .ui-flow{display:flex;margin:2px 0 13px}
+  .ui-flow-step{position:relative;flex:1;text-align:center;font-size:8.5px;color:#8a99a8;padding-top:13px}
+  .ui-flow-step::before{content:"";position:absolute;left:50%;top:0;width:8px;height:8px;margin-left:-5px;border-radius:50%;border:2px solid #cbd9e6;background:#fff;z-index:1}
+  .ui-flow-step::after{content:"";position:absolute;left:50%;top:4px;width:100%;height:1px;background:#d9e4ef;z-index:0}
+  .ui-flow-step:last-child::after{display:none}
+  .ui-flow-step.done{color:#0d5c9e}
+  .ui-flow-step.done::before{background:#1677c5;border-color:#1677c5}
+  .ui-flow-step.now{color:#0a7167;font-weight:600}
+  .ui-flow-step.now::before{border-color:#0f9d8f;box-shadow:0 0 0 3px rgba(15,157,143,.12)}
+  .ui-flow-step small{display:block;margin-top:1px;font-size:7.5px;font-weight:400;color:#9aa9b8}
+  .ui-files{display:grid;gap:6px;margin-bottom:11px}
+  .ui-file{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid #eef3f8;border-radius:6px;background:#fbfdff}
+  .ui-file-ico{width:19px;height:21px;border-radius:3px;background:#e8f4fe;color:#0d5c9e;font-size:8px;font-weight:700;display:grid;place-items:center;flex:none}
+  .ui-file-ico.pdf{background:#fff0ef;color:#b42318}
+  .ui-file div{min-width:0;flex:1}
+  .ui-file b{display:block;font-size:9px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ui-file small{display:block;margin-top:1px;font-size:7.5px;color:#8a99a8}
+  .ui-file em{font-style:normal;font-size:8px;color:#1677c5;white-space:nowrap}
+  .ui-review-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:9px;border-top:1px solid #eef3f8;font-size:8px;color:#8a99a8}
+  .ui-review-actions div{display:flex;gap:6px}
+  .ui-btn{height:25px;padding:0 10px;border-radius:5px;background:#1677c5;color:#fff;font-size:8.5px;font-weight:600;border:0;white-space:nowrap}
+  .ui-btn.ghost{background:#fff;color:#5b6c7e;border:1px solid #dbe6f0}
+  .ui-side-card b{display:block;margin-bottom:8px;font-size:9.5px}
+  .ui-side-card dl{display:grid;grid-template-columns:62px 1fr;gap:7px 6px;margin:0;font-size:8.5px}
+  .ui-side-card dt{color:#8a99a8}
+  .ui-side-card dd{margin:0;color:#1a2332}
+  .ui-caption{display:flex;align-items:center;gap:6px;margin-top:11px;font-size:10.5px;color:var(--ink-3)}
+  .ui-caption::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--line-strong);flex:none}
+
+
+  /* ---------- 常见问题 ---------- */
+  .faq{max-width:920px}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item:first-child{border-top:1px solid var(--line)}
+  .faq-item summary{
+    display:flex;align-items:flex-start;gap:16px;
+    padding:20px 2px;cursor:pointer;list-style:none;
+    font-size:15.5px;font-weight:600;line-height:1.6;color:var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-num{flex:none;padding-top:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5px;color:var(--ink-3);letter-spacing:.06em}
+  .faq-q{flex:1}
+  .faq-icon{position:relative;flex:none;width:22px;height:22px;margin-top:2px;border:1px solid var(--line-strong);border-radius:50%;transition:border-color .2s ease,background .2s ease}
+  .faq-icon::before,.faq-icon::after{content:"";position:absolute;left:5px;right:5px;top:50%;height:1.5px;background:var(--ink-2);transform:translateY(-50%);transition:transform .22s var(--ease)}
+  .faq-icon::after{transform:translateY(-50%) rotate(90deg)}
+  .faq-item[open] .faq-icon{border-color:var(--brand);background:var(--brand-50)}
+  .faq-item[open] .faq-icon::before,.faq-item[open] .faq-icon::after{background:var(--brand-700)}
+  .faq-item[open] .faq-icon::after{transform:translateY(-50%) rotate(0)}
+  .faq-item summary:hover .faq-icon{border-color:var(--brand)}
+  .faq-a{padding:0 40px 22px 40px;font-size:14px;line-height:1.9;color:var(--ink-2)}
+  .faq-a b{color:var(--ink);font-weight:600}
+
+  /* ---------- 两条链 ---------- */
+  .lanes{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:34px 36px;box-shadow:var(--shadow-sm);
+  }
+  .lane{display:grid;grid-template-columns:132px 1fr;gap:22px;align-items:center}
+  .lane-head{display:flex;flex-direction:column;gap:3px}
+  .lane-tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;color:var(--brand-700)}
+  .lane-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand)}
+  .lane-report .lane-tag{color:#0a7167}
+  .lane-report .lane-tag::before{background:var(--teal)}
+  .lane-head p{font-size:11px;color:var(--ink-3);padding-left:13px}
+  .lane-track{position:relative;display:flex;flex-wrap:wrap;gap:9px;padding:6px 0;width:fit-content;max-width:100%}
+  .lane-track::before{
+    content:"";position:absolute;left:10px;right:10px;top:50%;height:1px;
+    background:repeating-linear-gradient(90deg,var(--line-strong) 0 5px,transparent 5px 11px);
+  }
+  .lane-track li{
+    position:relative;z-index:1;
+    display:inline-flex;align-items:center;gap:7px;
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:7px 13px;font-size:12px;color:var(--ink-2);white-space:nowrap;
+    transition:border-color .18s ease,color .18s ease,transform .18s ease;
+  }
+  .lane-track li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--brand)}
+  .lane-report .lane-track li::before{background:var(--teal)}
+  .lane-track li:hover{border-color:var(--line-strong);color:var(--ink);transform:translateY(-1px)}
+  .lane-bridge{display:flex;align-items:center;gap:14px;margin:24px 0;font-size:11.5px;color:var(--ink-3);letter-spacing:.02em}
+  .lane-bridge span{flex:1;height:1px;background:var(--line)}
+  .lane-bridge b{color:var(--ink-2);font-weight:600}
+  .lane-foot{
+    margin-top:22px;padding-top:18px;border-top:1px dashed var(--line);
+    font-size:12.5px;line-height:1.8;color:var(--ink-3);
+  }
+  .trace{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:14px}
+  .trace-label{font-size:10px;letter-spacing:.09em;color:var(--ink-3);white-space:nowrap}
+  .trace-chain{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+  .trace-chain span{
+    display:inline-flex;flex-direction:column;gap:1px;
+    padding:5px 9px;border:1px solid var(--line);border-radius:6px;background:#fbfdff;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:10.5px;color:var(--ink-2);line-height:1.4;
+  }
+  .trace-chain span small{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:8.5px;color:var(--ink-3);letter-spacing:.04em}
+  .trace-chain i{font-style:normal;font-size:12px;color:var(--line-strong)}
+
+  /* ---------- 能力 ---------- */
+  .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .cap{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:25px 23px 23px;
+    transition:transform .25s var(--ease),box-shadow .25s ease,border-color .25s ease;
+  }
+  .cap:hover{transform:translateY(-3px);border-color:#cfe0ef;box-shadow:0 28px 46px -34px rgba(13,63,110,.5)}
+  .cap-icon{
+    width:42px;height:42px;border-radius:11px;
+    display:grid;place-items:center;
+    background:linear-gradient(180deg,#f2f9ff,#e8f3fd);
+    border:1px solid #dcecf9;color:var(--brand-700);
+  }
+  .cap h3{font-size:15.5px;font-weight:650;letter-spacing:-.01em;margin:16px 0 8px}
+  .cap p{font-size:13.5px;line-height:1.8;color:var(--ink-2)}
+  .cap-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+  .cap-tags span{
+    font-size:10px;color:var(--ink-3);background:#f7fafd;
+    border:1px solid var(--line);padding:2px 7px;border-radius:5px;
+  }
+
+  /* ---------- 角色 ---------- */
+  .table-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+  table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}
+  thead th{
+    background:#f8fbfe;padding:13px 22px;border-bottom:1px solid var(--line);
+    font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--ink-3);
+  }
+  tbody td{padding:18px 22px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top;line-height:1.75}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr:hover{background:#fbfdff}
+  .role-name{display:flex;align-items:center;gap:9px;font-weight:650;color:var(--ink);white-space:nowrap}
+  .role-dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .rd-1{background:var(--brand)}
+  .rd-2{background:#3c9ad6}
+  .rd-3{background:var(--teal)}
+  .rd-4{background:var(--amber)}
+  .role-code{display:block;margin-top:2px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5px;color:var(--ink-3);font-weight:400;letter-spacing:.03em}
+  .table-note{display:flex;gap:9px;margin-top:16px;font-size:12px;line-height:1.75;color:var(--ink-3)}
+  .table-note svg{flex:none;margin-top:3px;color:var(--brand)}
+
+  /* ---------- AI ---------- */
+  .ai{position:relative;overflow:hidden;background:#081a2b;color:#d7e5f3;padding:clamp(68px,9vw,104px) 0}
+  .ai::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(760px 420px at 82% 12%,rgba(22,119,197,.28),transparent 62%),
+      radial-gradient(520px 360px at 8% 92%,rgba(15,157,143,.16),transparent 66%);
+  }
+  .ai::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 40%,#000,transparent 78%);
+    mask-image:radial-gradient(ellipse 70% 70% at 50% 40%,#000,transparent 78%);
+  }
+  .ai .wrap{position:relative;z-index:1}
+  .ai .kicker{color:#79c3f6}
+  .ai .kicker-num{color:#6f8ba5}
+  .ai h2{color:#fff}
+  .ai .lede{color:#a5bccf}
+  .ai-grid{display:grid;grid-template-columns:1fr .92fr;gap:56px;align-items:center;margin-top:0}
+  .ai-grid > *{min-width:0}
+  .ai-copy .lede{color:#a5bccf;max-width:36em}
+  .ai-points{margin:26px 0 0;border-top:1px solid rgba(255,255,255,.1)}
+  .ai-points li{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:start;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .ai-points b{font-size:25px;font-weight:650;line-height:1.15;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .ai-points b small{font-size:10px;font-weight:500;color:#8fa9c1;margin-left:2px}
+  .ai-points strong{display:block;font-size:12.5px;font-weight:600;color:#e8f2fb;margin-bottom:2px}
+  .ai-points p{font-size:12px;line-height:1.7;color:#91aabf}
+
+  .ai-hub{background:rgba(8,26,43,.55);border:1px solid rgba(255,255,255,.13);border-radius:16px;padding:26px 24px 30px;box-shadow:0 34px 70px -34px rgba(0,0,0,.8)}
+  .ai-hub-title{font-size:10px;letter-spacing:.12em;color:#79c3f6;text-align:center;margin-bottom:16px}
+  .ai-hub-agents{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+  .hub-agent{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:rgba(255,255,255,.05);font-size:12px;font-weight:500;color:#d7e5f3;white-space:nowrap}
+  .hub-agent::before{content:"";width:7px;height:7px;border-radius:50%;background:#37b6ff;flex:none}
+  .hub-agent.wb::before{background:#52c41a}
+  .hub-agent.cx::before{background:#37b6ff}
+  .hub-agent.ds::before{background:#a78bfa}
+  .ai-hub-conn{display:flex;flex-direction:column;align-items:center;margin:18px 0}
+  .ai-hub-conn i{width:1px;height:22px;background:repeating-linear-gradient(180deg,rgba(255,255,255,.3) 0 3px,transparent 3px 6px)}
+  .ai-hub-conn span{font-size:10px;letter-spacing:.08em;color:#79c3f6;margin-top:8px}
+  .ai-hub-core{background:linear-gradient(180deg,rgba(22,119,197,.22),rgba(22,119,197,.08));border:1px solid rgba(55,182,255,.35);border-radius:12px;padding:17px 18px;color:#fff;text-align:center}
+  .ai-hub-core b{display:block;font-size:15px;font-weight:700;letter-spacing:.08em}
+  .ai-hub-core small{display:block;margin-top:5px;font-size:10.5px;color:#9fc3e8}
+  .ai-note{display:flex;gap:8px;margin-top:13px;font-size:10.5px;line-height:1.7;color:#93a9bd}
+  .ai-note svg{flex:none;margin-top:2px;color:#5f7f99}
+
+  /* ---------- 技术底座 ---------- */
+  .stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .stack-item{background:#fff;padding:22px 24px 24px}
+  .stack-item dt{font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--ink-3)}
+  .stack-item dd{margin:7px 0 0;font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+  .stack-item p{margin:6px 0 0;font-size:12.5px;line-height:1.7;color:var(--ink-3)}
+
+  /* ---------- CTA ---------- */
+  .cta{padding:0 0 clamp(64px,8vw,96px)}
+  .cta-panel{
+    position:relative;overflow:hidden;
+    display:grid;grid-template-columns:1.3fr .7fr;gap:36px;align-items:center;
+    padding:52px 54px;border-radius:22px;
+    background:linear-gradient(132deg,#0a4676 0%,#0d5c9e 46%,#1579b4 100%);
+    color:#fff;box-shadow:0 44px 84px -52px rgba(10,70,118,.9);
+  }
+  .cta-panel::before{
+    content:"";position:absolute;right:-90px;top:-110px;width:360px;height:360px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.22),transparent 66%);
+  }
+  .cta-panel::after{
+    content:"";position:absolute;left:-60px;bottom:-120px;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(15,211,190,.18),transparent 68%);
+  }
+  .cta-copy{position:relative;z-index:1}
+  .cta-copy .kicker{color:rgba(255,255,255,.68)}
+  .cta-copy .kicker::after{opacity:.4}
+  .cta-copy h2{color:#fff;margin:12px 0 12px}
+  .cta-copy p{font-size:14px;line-height:1.85;color:rgba(255,255,255,.78);max-width:38em}
+  .cta-actions{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;align-items:stretch}
+  .btn-light{background:#fff;color:var(--brand-800);box-shadow:0 14px 28px -18px rgba(0,0,0,.6)}
+  .btn-light:hover{background:#f2f8ff;transform:translateY(-1px)}
+  .btn-outline-light{border:1px solid rgba(255,255,255,.42);color:#fff}
+  .btn-outline-light:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
+  .cta-contact{position:relative;z-index:1;margin-top:26px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:11.5px;color:rgba(255,255,255,.6)}
+  .cta-contact a{color:rgba(255,255,255,.86);border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:1px;transition:border-color .18s ease}
+  .cta-contact a:hover{border-color:#fff}
+
+  /* ---------- 页脚 ---------- */
+  footer{background:#fff;border-top:1px solid var(--line);padding:46px 0 26px}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:36px}
+  .foot-brand p{margin-top:14px;max-width:30em;font-size:12px;line-height:1.85;color:var(--ink-3)}
+  .foot-col h4{font-size:10.5px;font-weight:600;letter-spacing:.1em;color:var(--ink-3);margin-bottom:12px}
+  .foot-col a,.foot-col span{display:block;font-size:12.5px;color:var(--ink-2);padding:6px 0;transition:color .18s ease}
+  .foot-col a:hover{color:var(--brand-700)}
+  .foot-bottom{
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;
+    margin-top:38px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--ink-3);
+  }
+  .foot-bottom .disclaimer{max-width:56em}
+
+  /* ---------- 进入动画 ---------- */
+  .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .js .reveal.is-visible{opacity:1;transform:none}
+  .js .reveal[data-delay="1"]{transition-delay:.07s}
+  .js .reveal[data-delay="2"]{transition-delay:.14s}
+  .js .reveal[data-delay="3"]{transition-delay:.21s}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:1100px){
+    .hero-inner{gap:40px}
+    .float-a{right:-8px;top:-14px}
+    .float-b{left:-10px;bottom:-12px}
+    .nav-links{gap:20px}
+  }
+  @media (max-width:980px){
+    .nav-links{display:none}
+    .menu-btn{display:flex}
+    .hero{padding-top:124px}
+    .hero-inner{grid-template-columns:1fr;gap:52px}
+    .hero-app{max-width:560px;width:100%;margin-inline:auto}
+    .hero-floats{position:static;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .float-card{position:static;min-width:0}
+    .hero-stats{max-width:none}
+    .panel-grid{grid-template-columns:1fr;gap:28px}
+    .ai-grid{grid-template-columns:1fr;gap:36px}
+    .cap-grid{grid-template-columns:repeat(2,1fr)}
+    .problem-grid{grid-template-columns:repeat(2,1fr)}
+    .cta-panel{grid-template-columns:1fr;padding:44px 40px}
+    .cta-actions{flex-direction:row;flex-wrap:wrap}
+    .cta-actions .btn{flex:1;min-width:170px}
+    .foot-grid{grid-template-columns:1.4fr 1fr}
+    .ui-body{grid-template-columns:1fr}
+    .ui-side{display:none}
+  }
+  @media (max-width:760px){
+    .wrap{width:calc(100% - 40px)}
+    .hero{padding:112px 0 64px}
+    h1{font-size:clamp(34px,9.4vw,46px)}
+    .hero-lede{font-size:16px}
+    .hero-stats{grid-template-columns:repeat(2,1fr);gap:18px 16px}
+    .app-content{padding:18px 18px 22px}
+    .mini-flow li{padding-left:24px}
+    .process-rail{display:flex;overflow-x:auto;gap:12px;padding-bottom:12px;scrollbar-width:thin}
+    .process-rail::before,.rail-progress{display:none}
+    .step{flex:0 0 auto;flex-direction:row;align-items:center;gap:8px;padding:6px 10px 6px 6px;border:1px solid var(--line);border-radius:999px;background:#fff}
+    .step-index{width:30px;height:30px;font-size:10px}
+    .step-name{font-size:12.5px;white-space:nowrap}
+    .step-role{display:none}
+    .step.is-active{border-color:rgba(22,119,197,.34);background:var(--brand-50)}
+    .process-panel{padding:26px 22px;margin-top:22px}
+    .lanes{padding:26px 22px}
+    .lane{grid-template-columns:1fr;gap:10px;align-items:start}
+    .lane-head{flex-direction:row;align-items:center;gap:10px}
+    .lane-head p{padding-left:0}
+    .lane-track::before{display:none}
+    .lane-track li{font-size:11.5px;padding:6px 11px}
+    .lane-bridge{margin:18px 0;font-size:11px;text-align:center}
+    .lane-bridge span{display:none}
+    .cap-grid{grid-template-columns:1fr}
+    .stack-grid{grid-template-columns:1fr}
+    .section-head{margin-bottom:32px}
+    thead{display:none}
+    tbody tr{display:block;padding:16px 20px;border-bottom:1px solid var(--line)}
+    tbody tr:last-child{border-bottom:0}
+    tbody td{display:block;padding:0;border:0}
+    tbody td + td{margin-top:9px}
+    tbody td[data-label]::before{
+      content:attr(data-label);
+      display:block;margin-bottom:2px;
+      font-size:10px;letter-spacing:.08em;color:var(--ink-3);
+    }
+    .role-name{white-space:normal}
+    .ai-points li{grid-template-columns:60px 1fr;gap:10px}
+    .ui-tab{height:44px;padding:0 13px;font-size:12px}
+    .ui-topbar{height:40px;padding:0 12px}
+    .ui-crumb,.ui-search{display:none}
+    .ui-body{min-height:0}
+    .ui-main{padding:16px 14px 18px}
+    .ui-kpis{grid-template-columns:repeat(2,1fr)}
+    .ui-cols{grid-template-columns:1fr}
+    .ui-query{grid-template-columns:1fr}
+    .ui-list{display:none}
+    .ui-review{grid-template-columns:1fr}
+    .ui-side-card{display:none}
+    .ui-caption{align-items:flex-start;font-size:10px;line-height:1.6}
+    .faq-item summary{font-size:14.5px;padding:17px 0;gap:12px}
+    .faq-a{padding:0 0 18px 32px}
+    .faq-icon{width:20px;height:20px}
+    .foot-grid{grid-template-columns:1fr;gap:26px}
+    .cta-panel{padding:36px 26px;border-radius:18px}
+    .cta-actions{flex-direction:column}
+  }
+  @media (max-width:520px){
+    .problem-grid{grid-template-columns:1fr}
+    .ui-tab{font-size:11.5px;padding:0 11px}
+    .ui-kpi b{font-size:19px}
+    .ui-page-head h4{font-size:14.5px}
+  }
+  @media (max-width:420px){
+    .hero-floats{grid-template-columns:1fr}
+    .hero-actions .btn{width:100%}
+  }
+
+  @media print{
+    @page{margin:14mm}
+    html{scroll-behavior:auto}
+    body{background:#fff;color:#000;font-size:11pt}
+    .nav,.nav-progress,.mobile-menu,.hero-floats,.hero-app,.skip,.ui-tabs,.cta-actions,.hero-actions{display:none!important}
+    .hero{padding:12px 0 22px}
+    .hero-bg,.ai::before,.ai::after{display:none!important}
+    .hero-inner{display:block}
+    .hero-copy{max-width:none}
+    .section,.band,.ai,.cta{padding:22px 0!important;background:#fff!important;color:#000!important}
+    .section-head{margin-bottom:14px}
+    h1,h2,h3,h4{color:#000!important}
+    .kicker,.lede,.problem p,.cap p,.panel-desc,.panel-list li,.stack-item p,.faq-a,.hero-fit{color:#222!important}
+    .problem,.cap,.process-panel,.lanes,.table-wrap,.ui-frame,.faq-item,.stack-grid,.panel-grid{break-inside:avoid;box-shadow:none!important}
+    .js .reveal,.reveal{opacity:1!important;transform:none!important}
+    .ai-points b,.ai-points strong{color:#000!important}
+    .ai-points p,.ai .lede,.ai .kicker{color:#333!important}
+    .ui-body{min-height:0}
+    .ui-topbar{background:#eee!important;color:#000!important}
+    .ui-logo,.ui-crumb,.ui-user{color:#000!important}
+    footer{border-top:1px solid #ccc}
+    a[href^="http"]::after{content:" (" attr(href) ")";font-size:9pt;color:#555}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+    .js .reveal{opacity:1;transform:none}
+  }
+  /* 返回方图美妆智能官网（ai.atlaslabtest.com 宿主新增） */
+  .back-home{position:relative;margin-top:68px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;font-size:12px;font-weight:500;color:#42607f;background:#eef4f9;border-bottom:1px solid #dce7f1;transition:background .2s,color .2s}
+  .back-home:hover{background:#e3eef7;color:#1677c5}
+  .back-home span{font-size:14px;line-height:1}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<a class="back-home" href="../"><span aria-hidden="true">←</span> 返回方图美妆智能官网</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="ATLAS LIMS 首页">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <defs>
+          <linearGradient id="brandG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#1677c5"/>
+            <stop offset="1" stop-color="#0d5c9e"/>
+          </linearGradient>
+        </defs>
+        <rect width="32" height="32" rx="9" fill="url(#brandG)"/>
+        <path d="M8.6 23 16 8.4 23.4 23" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12.4 18.4h7.2" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">ATLAS<small>LIMS</small></span>
+        <span class="brand-sub">化妆品检测实验室系统</span>
+      </span>
+    </a>
+
+    <nav class="nav-links" aria-label="页面导航">
+      <a href="#why" data-spy="why">现状</a>
+      <a href="#flow" data-spy="flow">业务链路</a>
+      <a href="#interface" data-spy="interface">界面</a>
+      <a href="#capabilities" data-spy="capabilities">系统能力</a>
+      <a href="#roles" data-spy="roles">角色权限</a>
+      <a href="#ai" data-spy="ai">AI 接入</a>
+      <a href="#stack" data-spy="stack">技术底座</a>
+    </nav>
+
+    <div class="nav-right">
+      <a class="nav-cta" href="#contact">预约演示</a>
+      <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span>
+      </button>
+    </div>
+  </div>
+  <span class="nav-progress" id="navProgress" aria-hidden="true"></span>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" data-open="false">
+  <a href="#why">现状</a>
+  <a href="#flow">业务链路</a>
+  <a href="#interface">界面</a>
+  <a href="#capabilities">系统能力</a>
+  <a href="#roles">角色权限</a>
+  <a href="#ai">AI 接入</a>
+  <a href="#stack">技术底座</a>
+  <a href="#contact">预约演示</a>
+</div>
+
+<main id="main">
+  <!-- 首屏 -->
+  <section class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">ATLAS LIMS · 化妆品检测实验室信息管理系统</p>
+        <h1 class="reveal" data-delay="1">从一支样品，<br>到一份<span class="hl">报告</span>。</h1>
+        <p class="hero-lede reveal" data-delay="2">
+          送检登记、任务指派、样品流转、数据处理与报告审核，收在同一条链路上。<b>谁在做、做到哪一步、用了多少样、报告是哪一版</b>，打开就知道。
+        </p>
+        <div class="hero-actions reveal" data-delay="3">
+          <a class="btn btn-primary" href="#flow">
+            看业务流程
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5.5 4.5 4.5-4.5 4.5"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#capabilities">浏览系统能力</a>
+        </div>
+
+        <p class="hero-fit reveal" data-delay="3"><span>适用场景</span> <i>安全评价</i> · <i>功效测试</i> · <i>感官评价</i> · <i>方法研究</i></p>
+
+        <div class="hero-stats reveal" data-delay="3">
+          <div class="stat"><b>5</b><span>个业务环节</span></div>
+          <div class="stat"><b>4</b><span>类角色分权</span></div>
+          <div class="stat"><b>20</b><span>个 AI 可调用工具</span></div>
+          <div class="stat"><b>6</b><span>个列表高级筛选</span></div>
+        </div>
+      </div>
+
+      <figure class="hero-app reveal" data-delay="2" aria-label="ATLAS LIMS 流程查询界面示意">
+        <div class="app-window">
+          <div class="app-chrome" aria-hidden="true">
+            <span class="app-dot"></span><span class="app-dot"></span><span class="app-dot"></span>
+            <span class="app-path">检验管理 / 流程查询</span>
+            <span class="app-badge">SUB-2026-0817</span>
+          </div>
+          <div class="app-content">
+            <div class="app-head">
+              <div>
+                <p class="app-eyebrow">样品流程</p>
+                <h3>复合精华液 · 人体斑贴试验</h3>
+              </div>
+              <span class="pill pill-teal">在检</span>
+            </div>
+            <ol class="mini-flow">
+              <li class="done">
+                <span class="dot" aria-hidden="true"></span>
+                <div><b>送检登记</b><small>受理组 · 09:12</small></div>
+                <em>已受理</em>
+              </li>
+              <li class="done">
+                <span class="dot" aria-hidden="true"></span>
+                <div><b>任务指派</b><small>3 个试验 · 项目负责人已确认</small></div>
+                <em>已指派</em>
+              </li>
+              <li class="now">
+                <span class="dot" aria-hidden="true"></span>
+                <div><b>任务处理</b><small>领样 20 g · 样品管理员已确认</small></div>
+                <em>在检</em>
+              </li>
+              <li>
+                <span class="dot" aria-hidden="true"></span>
+                <div><b>数据处理</b><small>等待原始数据与报告文件</small></div>
+                <em>待处理</em>
+              </li>
+              <li>
+                <span class="dot" aria-hidden="true"></span>
+                <div><b>报告审核</b><small>审核人 → 批准人</small></div>
+                <em>待审核</em>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="hero-floats">
+          <div class="float-card float-a">
+            <span class="fc-label">今日待确认</span>
+            <strong>6</strong>
+            <span class="fc-sub warn">2 项将在 3 天内到期</span>
+          </div>
+          <div class="float-card float-b">
+            <span class="fc-label">样品剩余量</span>
+            <strong>68.5<small>g</small></strong>
+            <span class="fc-sub">留样到期 2027-03-18</span>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 痛点 -->
+  <section class="band" id="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">01</span> 现状</p>
+        <h2>实验室里最难回答的，<br>往往是几个小问题。</h2>
+        <p class="lede">它们不难在技术，难在信息散落在表格、聊天记录和某个人的记忆里。</p>
+      </div>
+
+      <div class="problem-grid">
+        <article class="problem reveal">
+          <span class="pnum">01 / 样品</span>
+          <h3>这支样品现在在哪？</h3>
+          <p>领样、还样、销样、留样记在不同人的表格里，月底盘点只能靠回忆。</p>
+        </article>
+        <article class="problem reveal" data-delay="1">
+          <span class="pnum">02 / 报告</span>
+          <h3>这份报告是哪一版？</h3>
+          <p>文件在群里传来传去，最终版永远躺在某个人的下载文件夹里。</p>
+        </article>
+        <article class="problem reveal" data-delay="2">
+          <span class="pnum">03 / 进度</span>
+          <h3>这个测试到哪一步了？</h3>
+          <p>进度靠问，问不到就翻聊天记录，客户催的时候没人答得上来。</p>
+        </article>
+        <article class="problem reveal" data-delay="3">
+          <span class="pnum">04 / 责任</span>
+          <h3>这个操作是谁做的？</h3>
+          <p>审核人、批准人、确认人写在纸上，真要追溯时对不上号。</p>
+        </article>
+      </div>
+
+      <p class="band-foot reveal">这些问题不需要更努力地记录，<b>只需要换一个地方记录。</b></p>
+    </div>
+  </section>
+
+  <!-- 业务链路 -->
+  <section class="section" id="flow">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">02</span> 业务链路</p>
+        <h2>五个环节，一条链路。</h2>
+        <p class="lede">上一步的数据就是下一步的输入。没有重复录入，也没有只存在某个人电脑里的中间版本。</p>
+      </div>
+
+      <div class="reveal">
+        <div class="process-rail" role="tablist" aria-label="业务流程环节">
+          <button class="step is-active" role="tab" id="step-1" aria-controls="panel-1" aria-selected="true" data-step="0">
+            <span class="step-index">01</span>
+            <span class="step-name">送检登记</span>
+            <span class="step-role">受理组</span>
+          </button>
+          <button class="step" role="tab" id="step-2" aria-controls="panel-2" aria-selected="false" tabindex="-1" data-step="1">
+            <span class="step-index">02</span>
+            <span class="step-name">任务指派</span>
+            <span class="step-role">技术组</span>
+          </button>
+          <button class="step" role="tab" id="step-3" aria-controls="panel-3" aria-selected="false" tabindex="-1" data-step="2">
+            <span class="step-index">03</span>
+            <span class="step-name">任务处理</span>
+            <span class="step-role">技术组</span>
+          </button>
+          <button class="step" role="tab" id="step-4" aria-controls="panel-4" aria-selected="false" tabindex="-1" data-step="3">
+            <span class="step-index">04</span>
+            <span class="step-name">数据处理</span>
+            <span class="step-role">报告组</span>
+          </button>
+          <button class="step" role="tab" id="step-5" aria-controls="panel-5" aria-selected="false" tabindex="-1" data-step="4">
+            <span class="step-index">05</span>
+            <span class="step-name">报告审核</span>
+            <span class="step-role">报告组 · 授权签字人</span>
+          </button>
+          <span class="rail-progress" aria-hidden="true"></span>
+        </div>
+
+        <div class="process-panel panel-in" id="panel-1" role="tabpanel" aria-labelledby="step-1">
+          <div class="panel-grid">
+            <div>
+              <div class="panel-roles"><span class="chip">受理组</span><span class="chip">登记审核</span></div>
+              <h3>一张单，装下送检信息和样品清单</h3>
+              <p class="panel-desc">受理组录入受理编号、送检单位、项目状态和保存条件，样品逐支登记，附件随单上传。提交后进入登记审核，审核人、时间与备注一并留在这张单上。</p>
+              <p class="panel-note">受理编号是后续所有动作的入口，全局唯一，不靠口头编号。</p>
+            </div>
+            <ul class="panel-list">
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>受理编号<b>全局唯一</b>，可按编号、送检单位、项目状态检索</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>一张受理单可登记<b>多支样品</b>，每支独立编号、独立流转</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>登记审核记录<b>审核人、审核时间与审核备注</b></span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Excel、PDF、Word、图片等附件随单保存，<b>在线预览</b></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-panel" id="panel-2" role="tabpanel" aria-labelledby="step-2" hidden>
+          <div class="panel-grid">
+            <div>
+              <div class="panel-roles"><span class="chip">技术组</span><span class="chip">项目负责人</span></div>
+              <h3>把一张单，拆成可执行的试验</h3>
+              <p class="panel-desc">技术组按样品拆出试验，每个试验有自己的编号、测试项目、测试方法、项目负责人和预计出报告时间。批量指派时，多行任务可以一次填完。</p>
+              <p class="panel-note">系统校验：送检单未审核通过，不能指派项目负责人。一条硬约束，胜过十条口头规定。</p>
+            </div>
+            <ul class="panel-list">
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>试验编号<b>全局唯一</b>，一条任务对应一支样品</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>测试方法支持标准、实验室、委托、非标准等类型</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>预计出报告时间进入首页预警，<b>提前 3 天提醒</b></span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>支持按送检单<b>批量展开</b>，多支样品一次指派</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-panel" id="panel-3" role="tabpanel" aria-labelledby="step-3" hidden>
+          <div class="panel-grid">
+            <div>
+              <div class="panel-roles"><span class="chip">技术组</span><span class="chip">样品管理员</span></div>
+              <h3>样品在谁手里，状态说了算</h3>
+              <p class="panel-desc">技术员领样后在系统里登记，样品管理员确认；检测过程中维护样品状态与用样数量，完成后填写结论、实际起止时间与确认信息。</p>
+              <p class="panel-note">领样与处理都有操作人、确认人和时间，不靠「我记得给过他了」。</p>
+            </div>
+            <ul class="panel-list">
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>样品状态：<b>待检 → 在检 → 检毕</b>，随实验推进更新</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>领样数量、处理方式、处理数量逐条登记</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>批量处理支持一次更新多条任务的实验信息</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>确认人、确认日期、结论简述与试验备注完整留档</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-panel" id="panel-4" role="tabpanel" aria-labelledby="step-4" hidden>
+          <div class="panel-grid">
+            <div>
+              <div class="panel-roles"><span class="chip">报告组</span><span class="chip">多版本留痕</span></div>
+              <h3>数据与报告，各有各的位置</h3>
+              <p class="panel-desc">上传原始数据与报告文件，填写报告编号、编写人和编写日期。同一个任务可以建多条数据处理记录，旧记录不覆盖，新版本从头走后续流程。</p>
+              <p class="panel-note">版本本身不是问题，「哪个才是最终版」才是。</p>
+            </div>
+            <ul class="panel-list">
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>支持 Excel、CSV、Word、PDF、图片，单文件 <b>≤ 50MB</b></span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>PDF、Word、Excel 附件<b>浏览器内直接预览</b>，不用下载</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>报告编号回填到流程查询的「检测报告」页签</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>同一任务可建<b>多条记录</b>，历史版本全部保留</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-panel" id="panel-5" role="tabpanel" aria-labelledby="step-5" hidden>
+          <div class="panel-grid">
+            <div>
+              <div class="panel-roles"><span class="chip">报告组</span><span class="chip">授权签字人</span></div>
+              <h3>编制、审核、批准，三步都有名字</h3>
+              <p class="panel-desc">审核人确认后进入待批准，批准人批准即完成；同时登记报告正式上传日期与领取方式。状态由人员签字自动推导，不需要手工改。</p>
+              <p class="panel-note">待审核 → 已审核 → 已批准，每一步都能追到具体的人和时间。</p>
+            </div>
+            <ul class="panel-list">
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>审核人与批准人分别记录，<b>状态自动流转</b></span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>报告正式上传日期、领取方式（自取 / 寄送 / 其他）</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>审核、批准均可填写备注，异常情况有地方说明</span>
+              </li>
+              <li>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.4 10.2 2.4 2.4 4.8-5.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>报告列表支持按状态、报告编号、审核人与日期筛选</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 系统界面 -->
+  <section class="section" id="interface" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">03</span> 界面</p>
+        <h2>不是流程图，<br>是每天打开的工作台。</h2>
+        <p class="lede">三个最常用的界面：首页看板、流程查询、报告审核。它们读的是同一条链路。</p>
+      </div>
+
+      <div class="ui-demo reveal">
+        <div class="ui-tabs" role="tablist" aria-label="系统界面示意">
+          <button class="ui-tab is-active" type="button" role="tab" id="ui-tab-home" aria-controls="ui-home" aria-selected="true" data-screen="home">首页看板</button>
+          <button class="ui-tab" type="button" role="tab" id="ui-tab-query" aria-controls="ui-query" aria-selected="false" tabindex="-1" data-screen="query">流程查询</button>
+          <button class="ui-tab" type="button" role="tab" id="ui-tab-review" aria-controls="ui-review" aria-selected="false" tabindex="-1" data-screen="review">报告审核</button>
+        </div>
+
+        <figure class="ui-frame" aria-label="ATLAS LIMS 界面示意">
+          <div class="ui-topbar" aria-hidden="true">
+            <span class="ui-logo">ATLAS <span>LIMS</span></span>
+            <span class="ui-crumb">首页 / 工作台</span>
+            <span class="ui-user">李工 · 技术组</span>
+          </div>
+          <div class="ui-body">
+            <aside class="ui-side" aria-hidden="true">
+              <div class="ui-menu-item is-active"><span class="ui-menu-dot"></span>首页</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>流程查询</div>
+              <div class="ui-menu-group">检验管理</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>送检登记</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>任务指派</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>数据处理</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>报告审核</div>
+              <div class="ui-menu-group">样品管理</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>样品信息</div>
+              <div class="ui-menu-item"><span class="ui-menu-dot"></span>留样记录</div>
+            </aside>
+
+            <div class="ui-main">
+              <div class="ui-screen ui-in" id="ui-home" role="tabpanel" aria-labelledby="ui-tab-home">
+                <div class="ui-page-head">
+                  <div>
+                    <h4>早上好，李工</h4>
+                    <p>2026 年 11 月 3 日 · 星期二 · 今天有 12 项任务待处理</p>
+                  </div>
+                  <span class="ui-pill teal">技术组</span>
+                </div>
+
+                <div class="ui-kpis">
+                  <div class="ui-kpi"><span>待处理任务</span><b>12</b><em>3 项临近出报告</em></div>
+                  <div class="ui-kpi"><span>今日完成</span><b>4</b><em>本周累计 18</em></div>
+                  <div class="ui-kpi"><span>在检样品</span><b>4</b><em>待检 8 · 检毕 15</em></div>
+                  <div class="ui-kpi is-warn"><span>超期预警</span><b>2</b><em>需要今天处理</em></div>
+                </div>
+
+                <div class="ui-cols">
+                  <div class="ui-card">
+                    <div class="ui-card-head"><b>我的待办</b><span>查看全部</span></div>
+                    <ul class="ui-todo">
+                      <li><span class="ui-sdot amber"></span><div><b>SPF-2026-0312</b><small>防晒乳 · 人体防晒功效</small></div><em class="is-due">今天</em></li>
+                      <li><span class="ui-sdot"></span><div><b>PATCH-2026-0288</b><small>面霜 · 人体斑贴试验</small></div><em>明天</em></li>
+                      <li><span class="ui-sdot teal"></span><div><b>SENS-2026-0141</b><small>精华液 · 感官评价</small></div><em>11-05</em></li>
+                    </ul>
+                  </div>
+
+                  <div class="ui-card">
+                    <div class="ui-card-head"><b>季度完成</b><span>2026</span></div>
+                    <div class="ui-chart">
+                      <div class="ui-bars">
+                        <div class="ui-bar"><b>32</b><i style="--h:58%"></i></div>
+                        <div class="ui-bar"><b>41</b><i style="--h:74%"></i></div>
+                        <div class="ui-bar"><b>38</b><i style="--h:68%"></i></div>
+                        <div class="ui-bar"><b>46</b><i style="--h:86%"></i></div>
+                      </div>
+                      <div class="ui-xaxis"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ui-screen" id="ui-query" role="tabpanel" aria-labelledby="ui-tab-query" hidden>
+                <div class="ui-page-head">
+                  <div>
+                    <h4>流程查询</h4>
+                    <p>按受理编号、样品编号或样品名称检索</p>
+                  </div>
+                  <span class="ui-search">搜索编号 / 样品名称</span>
+                </div>
+
+                <div class="ui-query">
+                  <div class="ui-list">
+                    <div class="ui-list-head">样品列表 <span>共 128 条</span></div>
+                    <div class="ui-list-row is-active"><div><b>复合精华液</b><small>SUB-2026-0817 · S-031</small></div><span class="ui-tag teal">在检</span></div>
+                    <div class="ui-list-row"><div><b>防晒乳</b><small>SUB-2026-0812 · S-028</small></div><span class="ui-tag">待检</span></div>
+                    <div class="ui-list-row"><div><b>保湿面霜</b><small>SUB-2026-0809 · S-025</small></div><span class="ui-tag">检毕</span></div>
+                  </div>
+
+                  <div class="ui-detail">
+                    <div class="ui-detail-head">
+                      <div><b>复合精华液</b><small>样品编号 S-031 · 受理单 SUB-2026-0817</small></div>
+                      <span class="ui-pill teal">在检</span>
+                    </div>
+                    <div class="ui-mini-tabs"><span class="is-active">流程进度</span><span>检测报告</span></div>
+                    <ul class="ui-timeline">
+                      <li class="done"><b>送检登记</b><small>受理组</small><em>09:12 已受理</em></li>
+                      <li class="done"><b>任务指派</b><small>3 个试验</small><em>已指派</em></li>
+                      <li class="now"><b>任务处理</b><small>领样 20 g</small><em>在检</em></li>
+                      <li><b>数据处理</b><small>等待上传</small><em>待处理</em></li>
+                      <li><b>报告审核</b><small>审核人 → 批准人</small><em>待审核</em></li>
+                    </ul>
+                    <div class="ui-summary"><span>剩余量<b>68.5 g</b></span><span>留样到期<b>2027-03-18</b></span><span>关联试验<b>3 个</b></span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ui-screen" id="ui-review" role="tabpanel" aria-labelledby="ui-tab-review" hidden>
+                <div class="ui-page-head">
+                  <div>
+                    <h4>报告审核</h4>
+                    <p>R-2026-1024 · 防晒乳 SPF 测试</p>
+                  </div>
+                  <span class="ui-pill amber">待审核</span>
+                </div>
+
+                <div class="ui-review">
+                  <div class="ui-card">
+                    <div class="ui-review-title"><b>报告编号 R-2026-1024</b><span>数据处理记录 #3</span></div>
+                    <div class="ui-flow">
+                      <div class="ui-flow-step done">编制<small>王工 · 11-01</small></div>
+                      <div class="ui-flow-step now">审核<small>待处理</small></div>
+                      <div class="ui-flow-step">批准<small>—</small></div>
+                    </div>
+                    <div class="ui-files">
+                      <div class="ui-file"><span class="ui-file-ico">X</span><div><b>原始数据.xlsx</b><small>2.4 MB · 11-01 14:20</small></div><em>预览</em></div>
+                      <div class="ui-file"><span class="ui-file-ico pdf">P</span><div><b>检测报告.pdf</b><small>1.1 MB · 11-01 16:05</small></div><em>预览</em></div>
+                    </div>
+                    <div class="ui-remark"><span>审核意见</span><p>数据完整，报告版本与原始记录一致。</p></div>
+                    <div class="ui-review-actions">
+                      <span>审核通过后进入批准</span>
+                      <div><span class="ui-btn ghost">退回</span><span class="ui-btn">审核通过</span></div>
+                    </div>
+                  </div>
+
+                  <aside class="ui-card ui-side-card">
+                    <b>受理信息</b>
+                    <dl>
+                      <dt>送检单位</dt><dd>示例客户</dd>
+                      <dt>项目状态</dt><dd>紧急</dd>
+                      <dt>送检日期</dt><dd>11-01</dd>
+                      <dt>预计报告</dt><dd>11-06</dd>
+                      <dt>项目负责人</dt><dd>李工</dd>
+                      <dt>样品数量</dt><dd>3 支</dd>
+                      <dt>领取方式</dt><dd>寄送</dd>
+                    </dl>
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </figure>
+        <p class="ui-caption">界面示意，数据为示例；实际字段与布局以交付版本为准。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 两条链 -->
+  <section class="section" id="evidence" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">04</span> 追溯</p>
+        <h2>两条并行的证据链。</h2>
+        <p class="lede">样品链回答「东西去哪了」，报告链回答「结论从哪来」。两条链在试验编号上对齐。</p>
+      </div>
+
+      <div class="lanes reveal">
+        <div class="lane">
+          <div class="lane-head">
+            <span class="lane-tag">样品链</span>
+            <p>东西去哪了</p>
+          </div>
+          <ol class="lane-track">
+            <li>受理登记</li>
+            <li>领样确认</li>
+            <li>在检</li>
+            <li>检毕</li>
+            <li>还样 / 销样 / 留样</li>
+            <li>到期处理</li>
+          </ol>
+        </div>
+
+        <div class="lane-bridge" aria-hidden="true">
+          <span></span>
+          <p>对齐键：<b>样品编号</b> + <b>试验编号</b></p>
+          <span></span>
+        </div>
+
+        <div class="lane lane-report">
+          <div class="lane-head">
+            <span class="lane-tag">报告链</span>
+            <p>结论从哪来</p>
+          </div>
+          <ol class="lane-track">
+            <li>原始数据</li>
+            <li>报告编制</li>
+            <li>审核</li>
+            <li>批准</li>
+            <li>报告交付</li>
+          </ol>
+        </div>
+
+        <p class="lane-foot">任何一份报告，都能回到它用的那支样品；任何一支样品，都能回到它的受理单。</p>
+
+        <div class="trace">
+          <span class="trace-label">一条追溯路径</span>
+          <div class="trace-chain">
+            <span>SUB-2026-0812<small>受理单</small></span>
+            <i aria-hidden="true">→</i>
+            <span>S-028<small>样品</small></span>
+            <i aria-hidden="true">→</i>
+            <span>SPF-2026-0312<small>试验</small></span>
+            <i aria-hidden="true">→</i>
+            <span>R-2026-1024<small>报告</small></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 能力 -->
+  <section class="section" id="capabilities" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">05</span> 系统能力</p>
+        <h2>把日常动作，做成系统能力。</h2>
+        <p class="lede">不追求功能数量，只把实验室每天都要重复的动作固定下来。</p>
+      </div>
+
+      <div class="cap-grid">
+        <article class="cap reveal">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 3h5.6"/><path d="M10.4 3v5.3L5.8 17a3 3 0 0 0 2.7 4.2h7a3 3 0 0 0 2.7-4.2l-4.6-8.7V3"/><path d="M7.6 14.2h8.8"/></svg>
+          </div>
+          <h3>样品全生命周期</h3>
+          <p>领样、还样、销样、留样四类动作逐条登记，剩余量按规则自动扣减，不再维护第二套台账。</p>
+          <div class="cap-tags"><span>流转记录</span><span>剩余量</span><span>双人确认</span></div>
+        </article>
+
+        <article class="cap reveal" data-delay="1">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="4.6" width="17.6" height="15.4" rx="2.4"/><path d="M8 3v3.4M16 3v3.4M3.2 9.2h17.6"/><path d="M12 12.4v3l2 1.2"/></svg>
+          </div>
+          <h3>留样与到期管理</h3>
+          <p>按样品编号规则自动推算留样到期日，到期前可查、可处理；销毁与批准记录一并留档。</p>
+          <div class="cap-tags"><span>到期日</span><span>销毁记录</span><span>批准人</span></div>
+        </article>
+
+        <article class="cap reveal" data-delay="2">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="18" r="2.3"/><path d="M8.3 6H14a3 3 0 0 1 0 6h-4a3 3 0 0 0 0 6h5.7"/></svg>
+          </div>
+          <h3>流程查询</h3>
+          <p>以样品为维度看全链路：左侧列表、右侧时间轴，「流程进度」与「检测报告」两个页签切换。</p>
+          <div class="cap-tags"><span>全链路时间轴</span><span>报告清单</span><span>按样品检索</span></div>
+        </article>
+
+        <article class="cap reveal">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18.5a8 8 0 1 1 16 0"/><path d="M12 18.2 16.4 13"/><circle cx="12" cy="18.2" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3>首页待办与预警</h3>
+          <p>本人待确认任务、今日与本周完成量、3 天内到期与已逾期提醒，以及全年季度完成趋势。</p>
+          <div class="cap-tags"><span>待办</span><span>超期预警</span><span>季度统计</span></div>
+        </article>
+
+        <article class="cap reveal" data-delay="1">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5h17.2l-6.7 7.5v5.3L10.1 21v-8.5Z"/></svg>
+          </div>
+          <h3>高级筛选</h3>
+          <p>送检、审核、任务、数据处理、报告审核等六个列表共用一套条件组合器，支持日期区间与空值判断。</p>
+          <div class="cap-tags"><span>多条件</span><span>日期区间</span><span>条件记忆</span></div>
+        </article>
+
+        <article class="cap reveal" data-delay="2">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9"/><path d="M18 7h2"/><path d="M4 17h3"/><path d="M12 17h8"/><circle cx="15.5" cy="7" r="2.1"/><circle cx="9" cy="17" r="2.1"/></svg>
+          </div>
+          <h3>字段级表单配置</h3>
+          <p>同一张表单，不同的人看到不同字段。字段目录集中维护，改一次，所有使用该字段的页面同步生效。</p>
+          <div class="cap-tags"><span>显示模板</span><span>按人分配</span><span>全站一致</span></div>
+        </article>
+
+        <article class="cap reveal">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9.5"/><path d="m8.4 6.4 3.6-3.4 3.6 3.4"/><path d="M12 21v-9.5"/><path d="m8.4 17.6 3.6 3.4 3.6-3.4"/></svg>
+          </div>
+          <h3>Excel 导入与导出</h3>
+          <p>样品入库支持工作簿批量导入，逐行校验、错误可定位；样品相关列表可按自选字段导出，单次最多一万行。</p>
+          <div class="cap-tags"><span>模板校验</span><span>自选字段</span><span>1 万行</span></div>
+        </article>
+
+        <article class="cap reveal" data-delay="1">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 12S6.2 5.8 12 5.8 21.4 12 21.4 12 17.8 18.2 12 18.2 2.6 12 2.6 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+          </div>
+          <h3>附件在线预览</h3>
+          <p>PDF、Word、Excel 在浏览器里直接打开，审核时不用先下载、再找对应软件。</p>
+          <div class="cap-tags"><span>PDF</span><span>Word</span><span>Excel</span></div>
+        </article>
+
+        <article class="cap reveal" data-delay="2">
+          <div class="cap-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.4c0 4.3 2.9 7.7 7 9.6 4.1-1.9 7-5.3 7-9.6V6Z"/><path d="m9 12 2.2 2.2 4.3-4.7"/></svg>
+          </div>
+          <h3>角色与权限</h3>
+          <p>四个角色按模块授权，页面、按钮、字段三层控制；谁能改、谁能批，由权限决定，不靠口头约定。</p>
+          <div class="cap-tags"><span>4 类角色</span><span>三层控制</span><span>按人分配</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 角色 -->
+  <section class="section" id="roles" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">06</span> 角色与权限</p>
+        <h2>权限不是一张总表，<br>而是每个人的工作台。</h2>
+        <p class="lede">登录之后，只看到与自己工作相关的入口和字段。少一点干扰，也少一点误操作。</p>
+      </div>
+
+      <div class="table-wrap reveal">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">角色</th>
+              <th scope="col">主要动作</th>
+              <th scope="col">数据范围</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="角色"><span class="role-name"><span class="role-dot rd-1"></span><span>超级管理员<span class="role-code">admin</span></span></span></td>
+              <td data-label="主要动作">用户与分组、MCP 客户端、字段显示模板，以及全部业务操作</td>
+              <td data-label="数据范围">全部模块与全部数据</td>
+            </tr>
+            <tr>
+              <td data-label="角色"><span class="role-name"><span class="role-dot rd-2"></span><span>受理组<span class="role-code">shouli</span></span></span></td>
+              <td data-label="主要动作">送检登记、登记审核</td>
+              <td data-label="数据范围">任务、数据处理、报告审核只读</td>
+            </tr>
+            <tr>
+              <td data-label="角色"><span class="role-name"><span class="role-dot rd-3"></span><span>技术组<span class="role-code">jishu</span></span></span></td>
+              <td data-label="主要动作">任务创建与指派、任务处理、领样登记、样品状态与用样数量维护</td>
+              <td data-label="数据范围">送检单、数据处理、报告审核只读</td>
+            </tr>
+            <tr>
+              <td data-label="角色"><span class="role-name"><span class="role-dot rd-4"></span><span>报告组<span class="role-code">baogao</span></span></span></td>
+              <td data-label="主要动作">数据处理、报告编制、报告审核与批准</td>
+              <td data-label="数据范围">送检单、任务只读</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note reveal">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 9v4.4" stroke-linecap="round"/><circle cx="10" cy="6.6" r=".9" fill="currentColor" stroke="none"/></svg>
+        <span>权限按模块授权，可细化到页面、按钮与字段；字段显示模板按用户分配，同一张表单对不同人呈现不同内容。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section class="ai" id="ai">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">07</span> AI 接入</p>
+        <h2>任何 AI，都能成为实验室的第二个入口。</h2>
+      </div>
+
+      <div class="ai-grid">
+        <div class="ai-copy reveal">
+          <p class="lede">基于标准 MCP 协议，腾讯 WorkBuddy、Codex、DeepSeek 等 AI 助手，都能接入同一个 LIMS：查数据、看进度，或在授权范围内写记录。权限照旧，全程留痕。</p>
+
+          <ul class="ai-points">
+            <li>
+              <b>15<small>个</small></b>
+              <div><strong>只读查询</strong><p>受理、任务、样品、数据处理与报告审核记录，按编号与条件检索</p></div>
+            </li>
+            <li>
+              <b>5<small>个</small></b>
+              <div><strong>受控写入</strong><p>在授权范围内创建任务、更新实验与处理信息，沿用执行用户的业务权限</p></div>
+            </li>
+            <li>
+              <b>1<small>条</small></b>
+              <div><strong>审计链路</strong><p>每次调用记录客户端、执行用户、目标对象、结果与耗时</p></div>
+            </li>
+          </ul>
+
+          <p class="ai-note">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 9v4.4" stroke-linecap="round"/><circle cx="10" cy="6.6" r=".9" fill="currentColor" stroke="none"/></svg>
+            <span>每个客户端独立 API Key，可单独开关写权限或停用；同一份数据，对所有接入的 AI 一致。</span>
+          </p>
+        </div>
+
+        <div class="reveal" data-delay="1">
+          <div class="ai-hub">
+            <p class="ai-hub-title">一个系统，接入多个 AI</p>
+            <div class="ai-hub-agents">
+              <span class="hub-agent wb">腾讯 WorkBuddy</span>
+              <span class="hub-agent cx">Codex</span>
+              <span class="hub-agent ds">DeepSeek</span>
+            </div>
+            <div class="ai-hub-conn" aria-hidden="true">
+              <i></i>
+              <span>标准 MCP 协议</span>
+            </div>
+            <div class="ai-hub-core">
+              <b>ATLAS LIMS</b>
+              <small>统一权限 · 统一审计 · 只读或受控写入</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 技术底座 -->
+  <section class="section" id="stack">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">08</span> 技术底座</p>
+        <h2>能装进实验室的机房，<br>也能跑在云上。</h2>
+        <p class="lede">不讲技术栈，只看结果：装在实验室自己的服务器上，或者托管到云上，浏览器打开就能用，数据始终由你掌控。</p>
+      </div>
+
+      <dl class="stack-grid reveal">
+        <div class="stack-item">
+          <dt>交付方式</dt>
+          <dd>私有化 · 云端</dd>
+          <p>装进实验室自己的服务器，或托管到云主机，按你的条件选。</p>
+        </div>
+        <div class="stack-item">
+          <dt>使用方式</dt>
+          <dd>浏览器即开即用</dd>
+          <p>不需要安装客户端，电脑、平板、手机打开浏览器就能用。</p>
+        </div>
+        <div class="stack-item">
+          <dt>数据归属</dt>
+          <dd>数据由你掌控</dd>
+          <p>业务数据与上传文件可独立存放，不绑定第三方平台。</p>
+        </div>
+        <div class="stack-item">
+          <dt>稳定性</dt>
+          <dd>自动重启 · 健康检查</dd>
+          <p>服务异常会自动拉起，运行状态随时可查。</p>
+        </div>
+        <div class="stack-item">
+          <dt>升级方式</dt>
+          <dd>升级不动业务数据</dd>
+          <p>版本更新时数据不受影响，历史记录一条不丢。</p>
+        </div>
+        <div class="stack-item">
+          <dt>扩展能力</dt>
+          <dd>容量跟着数据走</dd>
+          <p>小规模零门槛起步，数据量涨上来，容量也跟得上。</p>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 常见问题 -->
+  <section class="section" id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker"><span class="kicker-num">09</span> 常见问题</p>
+        <h2>上线前，六个常见问题。</h2>
+        <p class="lede">答案都来自系统当前的实际能力，不做过期承诺。演示时可以逐条展开。</p>
+      </div>
+
+      <div class="faq reveal">
+        <details class="faq-item" open>
+          <summary>
+            <span class="faq-num">01</span>
+            <span class="faq-q">上线要停掉现有流程吗？</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">不用。可以先用一条业务线并行跑：新单走系统，旧单留在原处，跑顺之后再切换。受理编号与试验编号仍按你们现有的规则编，不需要推倒重来。</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-num">02</span>
+            <span class="faq-q">部署在实验室本地，还是云上？</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">两种都可以：装进实验室自己的服务器，或托管到云主机，浏览器打开就用。系统和数据分开存放，升级时不动业务数据。</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-num">03</span>
+            <span class="faq-q">权限能管到多细？</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">四个角色按模块授权，页面、按钮、字段三层控制。字段显示模板按人分配：同一张表单，给受理组和技术组套不同模板，看到的字段就不同。</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-num">04</span>
+            <span class="faq-q">报告改版了，旧版本怎么办？</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">新建一条数据处理记录，旧记录不覆盖；新报告重新走审核与批准。流程查询里能看到同一任务的多条数据处理与报告记录，审核人、批准人和时间各自独立。</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-num">05</span>
+            <span class="faq-q">现有的 Excel 台账能接进来吗？</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">样品入库支持工作簿批量导入，逐行校验；列表可以按自选字段导出。历史数据的迁移范围，建议在实施前按现有表格评估，先迁正在跑的单子。</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-num">06</span>
+            <span class="faq-q">AI 接入会不会绕过权限？</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">不会。任意支持 MCP 的 AI 助手（如腾讯 WorkBuddy、Codex、DeepSeek）都有独立 API Key，可只读或开放写入；每次调用绑定执行用户，沿用其业务权限并写入审计记录，写权限可随时关闭。</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <div class="cta-panel reveal">
+        <div class="cta-copy">
+          <p class="kicker"><span class="kicker-num">10</span> 下一步</p>
+          <h2>先把一条链路跑通。</h2>
+          <p>不必一次上线所有模块。先把样品流转和报告版本管住，再逐步接上任务、数据与审核——每一步都能单独验收。</p>
+          <div class="cta-contact">
+            <span>广东方图检测科技有限公司</span>
+            <a href="https://www.atlaslabtest.com" target="_blank" rel="noopener">官网留言</a>
+            <span>或联系您的项目对接人</span>
+          </div>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-light" href="https://www.atlaslabtest.com" target="_blank" rel="noopener">
+            预约产品演示
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5.5 4.5 4.5-4.5 4.5"/></svg>
+          </a>
+          <a class="btn btn-outline-light" href="#flow">再看一遍流程</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="回到顶部">
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="9" fill="#1677c5"/>
+            <path d="M8.6 23 16 8.4 23.4 23" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.4 18.4h7.2" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+          </svg>
+          <span class="brand-text">
+            <span class="brand-name">ATLAS<small>LIMS</small></span>
+            <span class="brand-sub">化妆品检测实验室系统</span>
+          </span>
+        </a>
+        <p>为化妆品安全、感官与功效评价实验室设计的全流程管理系统。从受理到报告，一条链路留痕。</p>
+      </div>
+
+      <div class="foot-col">
+        <h4>了解产品</h4>
+        <a href="#flow">业务流程</a>
+        <a href="#interface">系统界面</a>
+        <a href="#capabilities">系统能力</a>
+        <a href="#roles">角色权限</a>
+        <a href="#faq">常见问题</a>
+        <a href="#ai">AI 接入</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>关于</h4>
+        <a href="https://www.atlaslabtest.com" target="_blank" rel="noopener">方图检测官网</a>
+        <span>ATLAS LIMS 产品介绍</span>
+        <span>版本与功能以交付为准</span>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> 广东方图检测科技有限公司 · ATLAS LIMS</span>
+      <span class="disclaimer">本页为产品能力介绍，界面与数据均为示意，不代表真实客户数据或最终交付版本。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 年份 */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* 导航滚动状态与阅读进度 */
+  var nav = document.getElementById('nav');
+  var navProgress = document.getElementById('navProgress');
+  function updateReadingProgress() {
+    if (!navProgress) return;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var ratio = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+    navProgress.style.width = (ratio * 100).toFixed(2) + '%';
+  }
+  var onScroll = function () {
+    if (window.scrollY > 8) nav.classList.add('is-scrolled');
+    else nav.classList.remove('is-scrolled');
+    updateReadingProgress();
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', updateReadingProgress);
+  onScroll();
+  updateReadingProgress();
+
+  /* 移动端菜单 */
+  var menuBtn = document.getElementById('menuBtn');
+  var mobileMenu = document.getElementById('mobileMenu');
+  function setMenu(open) {
+    mobileMenu.setAttribute('data-open', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+  }
+  menuBtn.addEventListener('click', function () {
+    setMenu(mobileMenu.getAttribute('data-open') !== 'true');
+  });
+  mobileMenu.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') setMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setMenu(false);
+  });
+  document.addEventListener('click', function (e) {
+    if (mobileMenu.getAttribute('data-open') !== 'true') return;
+    if (mobileMenu.contains(e.target) || menuBtn.contains(e.target)) return;
+    setMenu(false);
+  });
+
+  /* 进入动画 */
+  var revealItems = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealItems.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealItems.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  /* 流程切换 */
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.process-panel'));
+  var progressBar = document.querySelector('.rail-progress');
+  var rail = document.querySelector('.process-rail');
+  var currentStep = 0;
+
+  function paintRail(index) {
+    if (!progressBar || !rail || steps.length < 2) return;
+    var railBox = rail.getBoundingClientRect();
+    var firstCircle = steps[0].querySelector('.step-index').getBoundingClientRect();
+    var activeCircle = steps[index].querySelector('.step-index').getBoundingClientRect();
+    var start = firstCircle.left + firstCircle.width / 2 - railBox.left;
+    var end = activeCircle.left + activeCircle.width / 2 - railBox.left;
+    progressBar.style.left = start + 'px';
+    progressBar.style.width = Math.max(0, end - start) + 'px';
+  }
+
+  function activateStep(index) {
+    currentStep = index;
+    steps.forEach(function (step, i) {
+      var active = i === index;
+      step.classList.toggle('is-active', active);
+      step.setAttribute('aria-selected', active ? 'true' : 'false');
+      step.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach(function (panel, i) {
+      var show = i === index;
+      panel.hidden = !show;
+      if (show) {
+        panel.classList.remove('panel-in');
+        void panel.offsetWidth;
+        panel.classList.add('panel-in');
+      }
+    });
+    paintRail(index);
+  }
+
+  steps.forEach(function (step, i) {
+    step.addEventListener('click', function () { activateStep(i); });
+    step.addEventListener('keydown', function (e) {
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % steps.length;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + steps.length) % steps.length;
+      if (e.key === 'Home') next = 0;
+      if (e.key === 'End') next = steps.length - 1;
+      if (next !== null) {
+        e.preventDefault();
+        activateStep(next);
+        steps[next].focus();
+      }
+    });
+  });
+  activateStep(0);
+  window.addEventListener('resize', function () { paintRail(currentStep); });
+  window.addEventListener('load', function () { paintRail(currentStep); });
+
+  /* 界面示意切换 */
+  var uiTabs = Array.prototype.slice.call(document.querySelectorAll('.ui-tab'));
+  var uiScreens = Array.prototype.slice.call(document.querySelectorAll('.ui-screen'));
+
+  function activateScreen(name) {
+    uiTabs.forEach(function (tab) {
+      var active = tab.getAttribute('data-screen') === name;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+    uiScreens.forEach(function (screen) {
+      var show = screen.id === 'ui-' + name;
+      screen.hidden = !show;
+      if (show) {
+        screen.classList.remove('ui-in');
+        void screen.offsetWidth;
+        screen.classList.add('ui-in');
+      }
+    });
+  }
+
+  uiTabs.forEach(function (tab, index) {
+    tab.addEventListener('click', function () {
+      activateScreen(tab.getAttribute('data-screen'));
+    });
+    tab.addEventListener('keydown', function (e) {
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (index + 1) % uiTabs.length;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (index - 1 + uiTabs.length) % uiTabs.length;
+      if (e.key === 'Home') next = 0;
+      if (e.key === 'End') next = uiTabs.length - 1;
+      if (next === null) return;
+      e.preventDefault();
+      activateScreen(uiTabs[next].getAttribute('data-screen'));
+      uiTabs[next].focus();
+    });
+  });
+
+  /* 导航高亮 */
+  var spyLinks = Array.prototype.slice.call(document.querySelectorAll('[data-spy]'));
+  var spySections = spyLinks.map(function (link) {
+    return document.getElementById(link.getAttribute('data-spy'));
+  }).filter(Boolean);
+
+  function updateSpy() {
+    var marker = window.scrollY + window.innerHeight * 0.4;
+    var current = null;
+    spySections.forEach(function (section) {
+      if (section.offsetTop <= marker) current = section.id;
+    });
+    spyLinks.forEach(function (link) {
+      link.classList.toggle('is-active', link.getAttribute('data-spy') === current);
+    });
+  }
+
+  var spyFrame = false;
+  function onSpyScroll() {
+    if (spyFrame) return;
+    spyFrame = true;
+    window.requestAnimationFrame(function () {
+      updateSpy();
+      spyFrame = false;
+    });
+  }
+
+  window.addEventListener('scroll', onSpyScroll, { passive: true });
+  window.addEventListener('resize', onSpyScroll);
+  updateSpy();
+})();
+</script>
+</body>
+</html>

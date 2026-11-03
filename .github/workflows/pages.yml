@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p .publish
           cp index.html .nojekyll .publish/
-          cp -R css js assets .publish/
+          cp -R css js assets lims .publish/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
