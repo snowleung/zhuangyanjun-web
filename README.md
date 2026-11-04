@@ -74,7 +74,7 @@ git commit -m "Update Atlas Beauty Intelligence website"
 git push origin main
 ```
 
-发布前检查锚点和相对资源完整，手机到桌面无横向溢出，菜单、Escape、无脚本导航和微信图像正常；确认两个专家没有被误写为已上线。发布后检查最新 Actions 的提交和运行结果，并验证 HTTPS 首页与静态资源为最新版本。
+发布前检查锚点和相对资源完整，手机到桌面无横向溢出，菜单、Escape、无脚本导航和微信图像正常；确认两位专家的上线标识正确，WorkBuddy 入口链接与推广二维码均可访问。发布后检查最新 Actions 的提交和运行结果，并验证 HTTPS 首页与静态资源为最新版本。
 
 ## 子路径与自定义域名
 
