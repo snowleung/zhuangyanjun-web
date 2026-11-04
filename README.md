@@ -10,12 +10,14 @@
 
 ## 内容与事实边界
 
-两位核心产品均使用「专家」命名，用户于 2026-10-30 确认暂未上线：
+核心产品均使用「专家」命名：
 
-1. **方图智能实验室服务专家**：依托 LIMS，围绕委托、样品、任务和报告提供查询及业务协作介绍。读写能力受实际客户端、业务权限和确认要求约束。
-2. **方图智能配方服务专家**：围绕配方系统、标准名称、配方资料与文件核对展示服务方向。具体能力与接入范围以正式发布及需求沟通为准。
+1. **方图智能实验室服务专家**：仍在筹备中，依托 LIMS，围绕委托、样品、任务和报告提供查询及业务协作介绍。
+2. **方图智能配方服务专家**：用户于 2026-11-04 确认已上线。依据配方系统规则检查导入表格，通过系统连接查询标准库、原料和配方，指导核对资料及执行授权变更。
 
-两位专家都提供咨询入口，不展示虚假的安装、登录或产品体验网址。LIMS 内容依据用户给定的 [PR #371](https://github.com/snowleung/atlas_lims/pull/371) 中 README 与说明。源码交付不代表专家上架或完成真实业务验收。后续收到用户现成目录与专家描述后，可进一步细化文案。
+配方专家提供用户确认的 [WorkBuddy 分享入口](https://www.workbuddy.cn/share/asset?shareCode=razlQW2KkHj8I51emCIyic&sig=MsBw0qv2mtqGvBzf) 和原始推广二维码图 `assets/images/formula-expert-workbuddy.png`；二维码不重绘或压缩。实际读写能力取决于系统连接、业务权限和确认要求。官网不声称已验证专家的实际业务效果。
+
+实验室专家内容依据用户给定的 [PR #371](https://github.com/snowleung/atlas_lims/pull/371) 中 README 与说明，源码交付不代表专家上架。
 
 独立工具「配方名称检查与勘误」保留已上线的 [WorkBuddy 分享入口](https://www.workbuddy.cn/share/asset?shareCode=xM1luM2P8OqMudIL4hFu3v&sig=taQ05wT5ztWrdfn9)。简介依据用户此前提供的方图配方云与 WorkBuddy AI 的 XLSX 文本、格式纠错说明。官网不安装工具，不接收配方文件，不声称已验证其实际纠错效果。
 
@@ -31,6 +33,7 @@ css/style.css
 js/main.js
 assets/icons/favicon.svg
 assets/images/wechat-contact.jpg
+assets/images/formula-expert-workbuddy.png
 .github/workflows/pages.yml
 .nojekyll
 .gitignore
